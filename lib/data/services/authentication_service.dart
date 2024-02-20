@@ -1,0 +1,116 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
+import 'package:story_creator/data/providers/firebase_authentication_repo_provider.dart';
+import 'package:story_creator/ui/models/ui_user.dart';
+
+final authenticationServiceProvider = Provider<AuthenticationService>((ref) {
+  final authService = AuthenticationService(ref);
+  return authService;
+});
+
+class AuthenticationService {
+  final Ref ref;
+  AuthenticationService(this.ref);
+
+  Future<UiUser?> signIn(String email, String password) async {
+    try {
+      const useFirebase = true;
+
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        try {
+          final user = await firebaseAuthRepo.signInWithEmailAndPassword(
+              email, password);
+          if (user != null) {
+            await user.reload();
+            return UiUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<UiUser?> createUser(String email, String password) async {
+    try {
+      const useFirebase = true;
+
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          final user = await firebaseAuthRepo.createUserWithEmailAndPassword(
+              email, password);
+          if (user != null) {
+            await user.reload();
+            return UiUser(
+              id: user.uid,
+              email: user.email!,
+              userName: '',
+              isLogged: false,
+            );
+          } else {
+            throw GenericException();
+          }
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'weak-password') {
+            throw WeakPasswordException();
+          } else if (e.code == 'email-already-in-use') {
+            throw EmailAlreadyInUse();
+          } else if (e.code == 'invalid-email') {
+            throw InvalidEmailException();
+          } else {
+            throw Exception(e);
+          }
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> sendEmailVerification() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          firebaseAuthRepo.sendEmailVerification();
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          firebaseAuthRepo.logout();
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+}
