@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDFttVlwADXiq8CvDMCSRlaN6Ko8s02GzY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>417223064418</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.laenredadera.ios.ai.storyCreator.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>story-creator-f7f00</string>
+	<key>STORAGE_BUCKET</key>
+	<string>story-creator-f7f00.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:417223064418:ios:0797199bbf702014c60a3b</string>
+</dict>
+</plist>
