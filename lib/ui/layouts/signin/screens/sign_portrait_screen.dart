@@ -5,9 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
+import 'package:story_creator/ui/core/error_validate_password_enum.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
-import 'package:story_creator/ui/providers/password_provider.dart';
+import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
+import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
 class SignPortraitScreen extends ConsumerStatefulWidget {
   const SignPortraitScreen({super.key});
@@ -24,8 +26,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
   @override
   Widget build(BuildContext context) {
     final emailController = ref.watch(emailControllerProvider.notifier).state;
-    final passwordController =
-        ref.watch(passwordControllerProvider.notifier).state;
+    final passwordController = ref.watch(passwordControllerProvider);
 
     return CupertinoPageScaffold(
       key: const Key("scaffold_sign_portrait"),
@@ -107,9 +108,41 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       controller: passwordController,
                       onChanged: (value) {
                         ref
-                            .read(passwordProvider.notifier)
-                            .update((state) => state = value);
-                        ref.read(passwordErrorProvider.notifier).state = null;
+                            .read(passwordValidatorProvider.notifier)
+                            .validatePassword(value);
+                        final validationState =
+                            ref.read(passwordValidatorProvider);
+
+                        print("AAA error len $validationState");
+                        if (validationState.errors
+                            .contains(ErrorValidatePassword.noLetter)) {
+                          if (kDebugMode) {
+                            print("AAA no 8 letter");
+                          }
+                        }
+                        if (validationState.errors
+                            .contains(ErrorValidatePassword.noNumber)) {
+                          if (kDebugMode) {
+                            print("AAA no 1 number");
+                          }
+                        }
+                        if (validationState.errors
+                            .contains(ErrorValidatePassword.noUpperCase)) {
+                          if (kDebugMode) {
+                            print("AAA no uppecase");
+                          }
+                        }
+                        if (validationState.errors
+                            .contains(ErrorValidatePassword.lessLengt)) {
+                          if (kDebugMode) {
+                            print("AAA less than 8 characters");
+                          }
+                        }
+                        if (validationState.errors.isEmpty) {
+                          if (kDebugMode) {
+                            print("AAA password valid");
+                          }
+                        }
                       },
                       placeholder: "Password",
                       prefix: Padding(
@@ -165,7 +198,11 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("create_account_button"),
                 borderRadius: BorderRadius.all(Radius.circular(16.r)),
                 onPressed: () async {
-                  final isValidPassword = ref.read(passwordValidationProvider);
+                  var isValidPassword = false;
+                  final validationState = ref.read(passwordValidatorProvider);
+                  isValidPassword =
+                      validationState.errors.isEmpty ? true : false;
+
                   final isValidEmail =
                       ref.read(emailValidationProvider(emailController.text));
                   if (isValidEmail) {
@@ -247,7 +284,11 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("log_in_button"),
                 borderRadius: BorderRadius.all(Radius.circular(34.r)),
                 onPressed: () async {
-                  final isValidPassword = ref.read(passwordValidationProvider);
+                  var isValidPassword = false;
+                  final validationState = ref.read(passwordValidatorProvider);
+                  isValidPassword =
+                      validationState.errors.isEmpty ? true : false;
+                      
                   final isValidEmail =
                       ref.read(emailValidationProvider(emailController.text));
 
