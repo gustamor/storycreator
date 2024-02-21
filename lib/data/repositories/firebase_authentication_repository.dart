@@ -95,4 +95,31 @@ class FirebaseAuthenticationRepository {
       }
     }
   }
+
+  Future<void> updateCurrentUserDisplayName(String displayName) async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final currentUser = firebaseAuth.currentUser;
+
+      if (currentUser != null) {
+        currentUser.updateDisplayName(displayName);
+      }
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
+
+  Future<String> getCurrentUserDisplayName() async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final currentUser = firebaseAuth.currentUser;
+      if (currentUser != null) {
+        return currentUser.displayName ?? '';
+      } else {
+        return '';
+      }
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
 }

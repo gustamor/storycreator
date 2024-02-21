@@ -130,4 +130,34 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
+
+  Future<void> updateCurrentUserDisplayName(String displayName) async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          firebaseAuthRepo.updateCurrentUserDisplayName(displayName);
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<String> getCurrentUserDisplayName() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        return await firebaseAuthRepo.getCurrentUserDisplayName();
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
