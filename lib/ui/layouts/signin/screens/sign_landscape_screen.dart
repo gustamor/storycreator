@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
-import 'package:story_creator/ui/providers/password_provider.dart';
+import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 
 class SignLandscapeScreen extends ConsumerStatefulWidget {
@@ -110,9 +110,9 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                           placeholder: "Password",
                             onChanged: (value) {
                         // Actualiza el proveedor del email
-                        ref.read(passwordProvider.notifier).update((state) => state = value);
+                      //  ref.read(passwordProvider.notifier).update((state) => state = value);
                         // Opcional: Limpiar el error al editar
-                        ref.read(passwordErrorProvider.notifier).state = null;
+                       // ref.read(passwordErrorProvider.notifier).state = null;
                       },
                           prefix: Padding(
                             padding: EdgeInsets.symmetric(

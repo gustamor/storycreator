@@ -8,7 +8,7 @@ import 'package:story_creator/data/repositories/firebase_authentication_reposito
 import 'package:story_creator/data/services/authentication_service.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
-import 'package:story_creator/ui/providers/password_provider.dart';
+import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 
 class MockUiUser extends Mock implements UiUser {}
 
@@ -26,7 +26,7 @@ class MockitoFireBaseAuthService extends Mock implements AuthenticationService {
 void main() {
   const email = "gustavo.pinebox@gmail.com";
   const password = "abcdefgh1";
-  group('Sign Provider Tests', () {
+  group('Firebase authenticacion Provider Tests', () {
     test("should email expected is ''", () async {
       final container = ProviderContainer();
       final emailProvided = container.read(emailProvider);
@@ -46,17 +46,20 @@ void main() {
 
     test("should password expected is ''", () async {
       final container = ProviderContainer();
-      final passwordProvided = container.read(passwordProvider);
-      expect(passwordProvided, '');
+      final passwordProvided =
+          container.read(passwordControllerProvider.notifier).state;
+      expect(passwordProvided.text, '');
     });
 
     test("should password updated as expected", () async {
       final container = ProviderContainer();
-      container
-          .read(passwordProvider.notifier)
-          .update((state) => state = password);
-      final passwordProvided = container.read(passwordProvider);
-      expect(passwordProvided, password);
+      container.read(passwordControllerProvider.notifier).update((state) {
+        state.text = password;
+        return state;
+      });
+      final passwordProvided =
+          container.read(passwordControllerProvider.notifier).state;
+      expect(passwordProvided.text, password);
     });
 
     test(
@@ -212,8 +215,7 @@ void main() {
       }, returnsNormally);
     });
 
-    test('update and get the displayName for the user',
-        () async {
+    test('update and get the displayName for the user', () async {
       final mockUser = MockUser(
         isAnonymous: false,
         uid: 'someuid',
