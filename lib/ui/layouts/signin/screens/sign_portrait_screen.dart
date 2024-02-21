@@ -256,7 +256,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   }
                   if (isValidEmail && isValidPassword) {
                     final viewModel = ref.read(authViewModelProvider);
-                   viewModel
+                    viewModel
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
@@ -278,8 +278,6 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         gravity: ToastGravity.SNACKBAR,
                         timeInSecForIosWeb: 1,
                         fontSize: 13.sp);
-                  } 
-
                   }
                 },
                 child: Container(
