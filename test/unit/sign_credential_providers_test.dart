@@ -211,5 +211,30 @@ void main() {
         await mockAuth.sendPasswordResetEmail(email: email);
       }, returnsNormally);
     });
+
+    test('update and get the displayName for the user',
+        () async {
+      final mockUser = MockUser(
+        isAnonymous: false,
+        uid: 'someuid',
+        email: email,
+        displayName: 'Initial Name',
+      );
+      final mockAuth = MockFirebaseAuth(mockUser: mockUser);
+      final result = await mockAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Actualizar el displayName del usuario
+      String newDisplayName = 'Updated Name';
+      await mockAuth.currentUser!.updateDisplayName(newDisplayName);
+      await mockAuth.currentUser!.reload();
+
+      // Obtener el displayName actualizado
+      final updatedDisplayName = mockAuth.currentUser!.displayName;
+
+      // Verificar que el displayName ha sido actualizado correctamente
+      expect(updatedDisplayName, equals(newDisplayName));
+    });
   });
 }
