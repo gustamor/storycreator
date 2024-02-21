@@ -142,7 +142,23 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ],
               ),
             ),
-            Gap(16.h),
+            Gap(1.h),
+            CupertinoButton(
+              onPressed: () {
+                //TODO: Navigate to Password change screen
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 36.w),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    'Forgot password', style: TextStyle(fontSize: 10.sp),
+                    // tr('forgot_my_password'),
+                  ),
+                ),
+              ),
+            ),
+            Gap(4.h),
             Padding(
               padding: EdgeInsets.all(6.r),
               child: CupertinoButton(

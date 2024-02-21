@@ -146,7 +146,22 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                     ],
                   ),
                 ),
-                Gap(32.h),
+                Gap(2.h),
+                 CupertinoButton(
+              onPressed: () {
+                //TODO: Navigate to Password change screen
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 14.w),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    'Forgot password', style: TextStyle(fontSize: 6.sp),
+                    // tr('forgot_my_password'),
+                  ),
+                ),
+              ),
+            ),
                 Padding(
                   padding: EdgeInsets.all(6.r),
                   child: CupertinoButton(
