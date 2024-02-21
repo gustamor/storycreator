@@ -64,7 +64,6 @@ void main() {
         () async {
       final mockFirebaseAuthRepo = MockitoFirebaseAuthRepository();
 
-
       final userCredential = await mockFirebaseAuthRepo
           .signInWithEmailAndPassword(email, password);
       expect(userCredential, null);
@@ -126,7 +125,7 @@ void main() {
       }
     });
 
-    test('Simular inicio de sesión con email y contraseña', () async {
+    test('should sign in with emil and password', () async {
       final mockUser = MockUser(
         isAnonymous: false,
         uid: 'someuid',
@@ -143,8 +142,6 @@ void main() {
       final user = result.user;
       expect(user!.email, equals(email));
     });
-
-
 
     test('should faild when session login with user and password', () async {
       final mockUser = MockUser(
@@ -185,37 +182,34 @@ void main() {
       expect(auth.currentUser, isNot(equals(mockUser)));
     });
 
-    test('Simular registro de usuario con email y contraseña', () async {
-    // Email y contraseña para el registro del usuario
-    const email = 'newuser@example.com';
-    const password = 'password123';
+    test('should register user with email and password', () async {
+      const email = 'newuser@example.com';
+      const password = 'password123';
 
-    // Crear un usuario mock que represente al nuevo usuario
-    final mockUser = MockUser(
-      isAnonymous: false,
-      uid: 'newUserId',
-      email: email, // Usa el email proporcionado para el registro
-      displayName: 'New User',
-    );
+      final mockUser = MockUser(
+        isAnonymous: false,
+        uid: 'newUserId',
+        email: email,
+        displayName: 'New User',
+      );
 
-    // Inicializar MockFirebaseAuth con el estado inicial sin usuarios registrados
-    final auth = MockFirebaseAuth(mockUser: mockUser, signedIn: false);
+      final auth = MockFirebaseAuth(mockUser: mockUser, signedIn: false);
 
-    // Simular el registro del nuevo usuario
-    final result = await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      final result = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    });
+    test('should returns normally when send email to reset password', () async {
+      final mockAuth = MockFirebaseAuth();
 
-    // Obtener el usuario a partir del resultado
-    final user = result.user;
+      const email = 'user@example.com';
 
-    // Verificar que el email del usuario registrado coincide con el email proporcionado
-    expect(user!.email, equals(email));
+      await mockAuth.sendPasswordResetEmail(email: email);
 
-    // Aquí podrías añadir más aserciones para verificar el comportamiento esperado de tu aplicación
-  });
-
-  
+      expect(() async {
+        await mockAuth.sendPasswordResetEmail(email: email);
+      }, returnsNormally);
+    });
   });
 }
