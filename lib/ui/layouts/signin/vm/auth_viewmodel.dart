@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/domain/providers/user_createuser_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_logout_usecase_provider.dart';
+import 'package:story_creator/domain/providers/user_reset_password_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_sendemail_verification_usercase_provider.dart';
 import 'package:story_creator/domain/providers/user_signin_usecase_provider.dart';
-import 'package:story_creator/domain/usecases/user_send_email_verification.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
 class AuthViewModel {
@@ -41,9 +41,18 @@ class AuthViewModel {
   Future<void> sendEmailVerification() async {
     try {
       final sendEmailVerificationUseCase =
-         ref.read(sendEmailVerificationUseCaseProvider);
+          ref.read(sendEmailVerificationUseCaseProvider);
       return await sendEmailVerificationUseCase.invoke();
-  
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> resetUserPassword(String email) async {
+    try {
+      final resetUserPasswordUseCase =
+          ref.read(resetUserPasswordUseCaseProvider);
+      return await resetUserPasswordUseCase.invoke(email);
     } catch (e) {
       throw Exception(e);
     }

@@ -65,11 +65,9 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       controller: emailController,
 
                       onChanged: (value) {
-                        // Actualiza el proveedor del email
                         ref
                             .read(emailProvider.notifier)
                             .update((state) => state = value);
-                        // Opcional: Limpiar el error al editar
                         ref.read(emailErrorProvider.notifier).state = null;
                       },
                       placeholder: "Email",
@@ -108,11 +106,9 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       key: const Key("passwordField"),
                       controller: passwordController,
                       onChanged: (value) {
-                        // Actualiza el proveedor del email
                         ref
                             .read(passwordProvider.notifier)
                             .update((state) => state = value);
-                        // Opcional: Limpiar el error al editar
                         ref.read(passwordErrorProvider.notifier).state = null;
                       },
                       placeholder: "Password",
@@ -260,7 +256,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   }
                   if (isValidEmail && isValidPassword) {
                     final viewModel = ref.read(authViewModelProvider);
-                    viewModel
+                   viewModel
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
@@ -282,6 +278,8 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         gravity: ToastGravity.SNACKBAR,
                         timeInSecForIosWeb: 1,
                         fontSize: 13.sp);
+                  } 
+
                   }
                 },
                 child: Container(

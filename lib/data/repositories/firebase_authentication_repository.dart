@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/di/firebase_authentication_module.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 
-
 class FirebaseAuthenticationRepository {
   final Ref ref;
   FirebaseAuthenticationRepository(this.ref);
@@ -64,10 +63,9 @@ class FirebaseAuthenticationRepository {
 
   Future<void> logout() async {
     final firebaseAuth = ref.read(firebaseAuthProvider);
-
     final user = firebaseAuth.currentUser;
     if (user != null) {
-      await FirebaseAuth.instance.signOut();
+      await firebaseAuth.signOut();
     } else {
       throw UserNotLoggedIn();
     }
@@ -80,6 +78,21 @@ class FirebaseAuthenticationRepository {
       await user.sendEmailVerification();
     } else {
       throw UserNotLoggedIn();
+    }
+  }
+
+  Future<void> sendEmailResetPassword(String email) async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw UserNotFoundException();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else {
+        throw GenericException();
+      }
     }
   }
 }
