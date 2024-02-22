@@ -288,7 +288,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   final validationState = ref.read(passwordValidatorProvider);
                   isValidPassword =
                       validationState.errors.isEmpty ? true : false;
-                      
+
                   final isValidEmail =
                       ref.read(emailValidationProvider(emailController.text));
 

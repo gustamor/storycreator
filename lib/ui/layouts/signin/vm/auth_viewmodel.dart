@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:story_creator/domain/providers/user_change_password_usecase_privoder.dart';
 import 'package:story_creator/domain/providers/user_createuser_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_get_displayname_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_logout_usecase_provider.dart';
@@ -6,6 +7,7 @@ import 'package:story_creator/domain/providers/user_reset_password_usecase_provi
 import 'package:story_creator/domain/providers/user_sendemail_verification_usercase_provider.dart';
 import 'package:story_creator/domain/providers/user_signin_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_update_current_displayname_provider.dart';
+import 'package:story_creator/domain/usecases/user_change_password.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
 class AuthViewModel {
@@ -69,7 +71,8 @@ class AuthViewModel {
       throw Exception(e);
     }
   }
-   Future<String> getDisplayNameCurrentUser() async {
+
+  Future<String> getDisplayNameCurrentUser() async {
     try {
       final getCurrentUserDiisplayNameUseCase =
           ref.read(getCurrentUserDiisplayNameUseCaseProvider);
@@ -77,5 +80,16 @@ class AuthViewModel {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<void> changeUserPassword(String newPassword) async {
+    try {
+      final changeUserPasswordUseCase = ref.read(changeUserPasswordUseCaseProvider);
+      await changeUserPasswordUseCase.invoke(newPassword);
+    } catch (e) {
+      throw Exception(e);
+    }
+
+    
   }
 }
