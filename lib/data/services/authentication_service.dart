@@ -174,4 +174,37 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
+
+
+  Future<void> updateCurrentUserPhotoURL(String newPhotoURL) async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          firebaseAuthRepo.updateCurrentUserPhotoURL(newPhotoURL);
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  
+
+  Future<String> getCurrentUserPhotoURL() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        return await firebaseAuthRepo.getCurrentUserPhotoURL();
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
 }
