@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/domain/providers/user_change_password_usecase_privoder.dart';
 import 'package:story_creator/domain/providers/user_createuser_usecase_provider.dart';
-import 'package:story_creator/domain/providers/user_get_displayname_usecase_provider.dart';
+import 'package:story_creator/domain/providers/user_get_photourl_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_logout_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_reset_password_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_sendemail_verification_usercase_provider.dart';
 import 'package:story_creator/domain/providers/user_signin_usecase_provider.dart';
 import 'package:story_creator/domain/providers/user_update_current_displayname_provider.dart';
-import 'package:story_creator/domain/usecases/user_change_password.dart';
+import 'package:story_creator/domain/providers/user_update_current_photourl_proivder.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
 class AuthViewModel {
@@ -74,9 +74,9 @@ class AuthViewModel {
 
   Future<String> getDisplayNameCurrentUser() async {
     try {
-      final getCurrentUserDiisplayNameUseCase =
-          ref.read(getCurrentUserDiisplayNameUseCaseProvider);
-      return await getCurrentUserDiisplayNameUseCase.invoke();
+      final getCurrentUserDisplayNameUseCase =
+          ref.read(getCurrentUserPhotoURLUseCaseProvider);
+      return await getCurrentUserDisplayNameUseCase.invoke();
     } catch (e) {
       throw Exception(e);
     }
@@ -89,7 +89,27 @@ class AuthViewModel {
     } catch (e) {
       throw Exception(e);
     }
+  
+  }
 
-    
+    Future<void> updatePhotoURLCurrentUser(String newPhotoURL) async {
+    try {
+      final updatePhotoURLCurrentUserUseCase =
+          ref.read(updatePhotoURLCurrentUserUseCaseProvider);
+      return await updatePhotoURLCurrentUserUseCase.invoke(newPhotoURL);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+
+  Future<String> getPhotoURLCurrentUser() async {
+    try {
+      final getCurrentUserPhotoURLUseCase =
+          ref.read(getCurrentUserPhotoURLUseCaseProvider);
+      return await getCurrentUserPhotoURLUseCase.invoke();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

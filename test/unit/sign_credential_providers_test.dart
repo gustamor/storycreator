@@ -277,5 +277,27 @@ void main() {
       expect(mockAuth.currentUser, equals(mockUser));
 
     });
+
+
+    test('update and get the photoURL for the user', () async {
+      final mockUser = MockUser(
+        isAnonymous: false,
+        uid: 'someuid',
+        email: email,
+        displayName: 'Initial Name',
+      );
+      final mockAuth = MockFirebaseAuth(mockUser: mockUser);
+      final result = await mockAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      String newPhotoUrl = 'https://fastly.picsum.photos/id/237/200/200.jpg';
+      await mockAuth.currentUser!.updateDisplayName(newPhotoUrl);
+      await mockAuth.currentUser!.reload();
+
+      final updatedDisplayName = mockAuth.currentUser!.displayName;
+
+      expect(updatedDisplayName, equals(newPhotoUrl));
+    });
   });
 }

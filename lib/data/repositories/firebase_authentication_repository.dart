@@ -136,4 +136,32 @@ class FirebaseAuthenticationRepository {
       throw GenericException();
     }
   }
+
+    Future<void> updateCurrentUserPhotoURL(String newPhotoURL) async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final currentUser = firebaseAuth.currentUser;
+
+      if (currentUser != null) {
+        currentUser.updatePhotoURL(newPhotoURL);
+      }
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
+
+    Future<String> getCurrentUserPhotoURL() async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final currentUser = firebaseAuth.currentUser;
+      if (currentUser != null) {
+        return currentUser.photoURL ?? '';
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
+
 }
