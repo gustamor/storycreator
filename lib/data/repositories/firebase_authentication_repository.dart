@@ -7,7 +7,7 @@ class FirebaseAuthenticationRepository {
   final Ref ref;
   FirebaseAuthenticationRepository(this.ref);
 
-  Future<User?> signInWithEmailAndPassword(
+  Future<User?>? signInWithEmailAndPassword(
       String email, String password) async {
     final firebaseAuth = ref.read(firebaseAuthProvider);
 
@@ -116,7 +116,21 @@ class FirebaseAuthenticationRepository {
       if (currentUser != null) {
         return currentUser.displayName ?? '';
       } else {
-        return '';
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
+
+  Future<void> changeUserPassword(String newPassword) async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final currentUser = firebaseAuth.currentUser;
+      if (currentUser != null) {
+        return currentUser.updatePassword(newPassword);
+      } else {
+        throw UserNotLoggedIn();
       }
     } on FirebaseAuthException {
       throw GenericException();

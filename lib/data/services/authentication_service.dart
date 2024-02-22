@@ -160,4 +160,18 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
+
+
+  Future<void> changeUserPassword(String newPassword) async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        return await firebaseAuthRepo.changeUserPassword(newPassword);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
