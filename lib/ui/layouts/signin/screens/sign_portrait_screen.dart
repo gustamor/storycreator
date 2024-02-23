@@ -11,20 +11,12 @@ import 'package:story_creator/ui/providers/password_textcontroller_provider.dart
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
-class SignPortraitScreen extends ConsumerStatefulWidget {
-  const SignPortraitScreen({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SignPortraitScreenState();
-}
-
-class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
+class SignPortraitScreen extends ConsumerWidget {
+   SignPortraitScreen({super.key});
   final title = "Authorization Screen";
   final GlobalKey<FormState> _authFormkey = GlobalKey<FormState>();
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
 
@@ -64,7 +56,6 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                     child: CupertinoTextField(
                       key: const Key("emailField"),
                       controller: emailController,
-
                       onChanged: (value) {
                         ref
                             .read(emailProvider.notifier)
@@ -198,11 +189,11 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("create_account_button"),
                 borderRadius: BorderRadius.all(Radius.circular(16.r)),
                 onPressed: () async {
-                  var isValidPassword = false;
+                  /*  var isValidPassword = false;
                   final validationState = ref.read(passwordValidatorProvider);
                   isValidPassword =
-                      validationState.errors.isEmpty ? true : false;
-
+                      validationState.errors.isEmpty ? true : false; */
+                  const isValidPassword = true;
                   final isValidEmail =
                       ref.read(emailValidationProvider(emailController.text));
                   if (isValidEmail) {
@@ -230,8 +221,8 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   }
 
                   final viewModel = ref.read(authViewModelProvider);
-                  viewModel
-                      .createUser(emailController.text, passwordController.text)
+               //   viewModel
+              /*         .createUser(emailController.text, passwordController.text)
                       .then((_) {
                     if (kDebugMode) {
                       print("AAA user create");
@@ -253,7 +244,12 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         print("AAA $error");
                       }
                     },
-                  );
+                  ); */
+
+                  await viewModel.updatePhotoURLCurrentUser(
+                      'https://fastly.picsum.photos/id/237/200/200.jpg');
+                  final p = await viewModel.getPhotoURLCurrentUser();
+                  print("AAA foto $p");
                 },
                 child: Container(
                   width: kButtonWidth.w,
