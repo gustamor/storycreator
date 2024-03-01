@@ -11,6 +11,8 @@ import 'package:story_creator/ui/themes/colors.dart';
 import 'core/initializers.dart';
 
 final initialize = Init();
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

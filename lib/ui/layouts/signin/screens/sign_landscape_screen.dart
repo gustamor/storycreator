@@ -1,28 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
+import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
+import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
-class SignLandscapeScreen extends ConsumerStatefulWidget {
-  const SignLandscapeScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SignLandscapeScreenState();
-}
-
-class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
-  final title = "Authorization Screen Portrait";
+class SignLandscapeScreen extends ConsumerWidget {
+  SignLandscapeScreen({super.key});
+ final title = "Authorization Screen Portrait";
   final GlobalKey<FormState> _authFormkey = GlobalKey<FormState>();
-
   @override
-  Widget build(BuildContext context) {
-        final emailController = ref.watch(emailControllerProvider.notifier).state;
-        final passwordController = ref.watch(passwordControllerProvider.notifier).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+     Future(
+      () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
+    );
+    final emailController = ref.watch(emailControllerProvider.notifier).state;
+    final passwordController =
+        ref.watch(passwordControllerProvider.notifier).state;
 
     return CupertinoPageScaffold(
       key: const Key("scaffold_sign_landscape"),
@@ -65,11 +65,13 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                         child: CupertinoTextField(
                           key: const Key("emailFieldL"),
                           placeholder: "Email",
-                           
-                      onChanged: (value) {
-                        ref.read(emailProvider.notifier).update((state) => state = value);
-                        ref.read(emailErrorProvider.notifier).state = null;
-                      },
+
+                          onChanged: (value) {
+                            ref
+                                .read(emailProvider.notifier)
+                                .update((state) => state = value);
+                            ref.read(emailErrorProvider.notifier).state = null;
+                          },
                           controller: emailController,
                           prefix: Padding(
                             padding: EdgeInsets.symmetric(
@@ -108,12 +110,11 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                           key: const Key("passwordFieldL"),
                           controller: passwordController,
                           placeholder: "Password",
-                            onChanged: (value) {
-                        // Actualiza el proveedor del email
-                      //  ref.read(passwordProvider.notifier).update((state) => state = value);
-                        // Opcional: Limpiar el error al editar
-                       // ref.read(passwordErrorProvider.notifier).state = null;
-                      },
+                          onChanged: (value) {
+                            ref
+                                .read(passwordValidatorProvider.notifier)
+                                .validatePassword(value);
+                          },
                           prefix: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: kIconTextFieldPaddingLandscape.w),
@@ -147,27 +148,79 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                   ),
                 ),
                 Gap(2.h),
-                 CupertinoButton(
-              onPressed: () {
-                //TODO: Navigate to Password change screen
-              },
-              child: Padding(
-                padding: EdgeInsets.only(right: 14.w),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    'Forgot password', style: TextStyle(fontSize: 6.sp),
-                    // tr('forgot_my_password'),
+                Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding:  EdgeInsets.only(top: 8.h,left: 40.w),
+                  child: const PasswordValidationText(),
+                ),
+                CupertinoButton(
+                  onPressed: () {
+                    //TODO: Navigate to Password change screen
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 28.w),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        'Forgot password', style: TextStyle(fontSize: 10.sp),
+                        // tr('forgot_my_password'),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
                 Padding(
                   padding: EdgeInsets.all(6.r),
                   child: CupertinoButton(
                     key: const Key("create_account_buttonL"),
                     borderRadius: BorderRadius.all(Radius.circular(16.r)),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      var isValidPassword = false;
+                      final validationState =
+                          ref.read(passwordValidatorProvider);
+                      isValidPassword =
+                          validationState.errors.isEmpty ? true : false;
+
+                      final isValidEmail = ref
+                          .read(emailValidationProvider(emailController.text));
+                      if (isValidEmail) {
+                        logger.i("valid email");
+                      } else {
+                        logger.i("invalid email");
+                      }
+                      if (isValidPassword) {
+                        logger.i("valid password");
+                      } else {
+                        logger.i("invalid password");
+                      }
+                      if (isValidEmail && isValidPassword) {
+                        //Navigate to create account:
+                        // 1 - verfify password
+                        // 2 - Choose username
+                      }
+
+                      final viewModel = ref.read(authViewModelProvider);
+                      viewModel
+                          .createUser(
+                              emailController.text, passwordController.text)
+                          .then((_) {
+                        logger.i("user create");
+                        viewModel.sendEmailVerification().then((value) {
+                          logger.i("email sent");
+                        }).catchError(
+                          (error) {
+                            logger.i("$error");
+                          },
+                        );
+                      }).catchError(
+                        (error) {
+                          logger.i("$error");
+                        },
+                      );
+                    },
                     child: Container(
                       width: kButtonWidthLandscape.w,
                       height: kButtonHeightLandscape.h,
@@ -198,8 +251,51 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                     key: const Key("log_in_buttonL"),
                     borderRadius: BorderRadius.all(Radius.circular(34.r)),
                     onPressed: () async {
-                      final vm = ref.read(authViewModelProvider);
-                      vm.signIn(emailController.text, emailController.text);
+                      var isValidPassword = false;
+                      final validationState =
+                          ref.read(passwordValidatorProvider);
+                      isValidPassword =
+                          validationState.errors.isEmpty ? true : false;
+
+                      final isValidEmail = ref
+                          .read(emailValidationProvider(emailController.text));
+
+                      if (isValidEmail) {
+                        logger.i("valid email");
+                      } else {
+                        logger.i("invalid email");
+                      }
+                      if (isValidPassword) {
+                        logger.i("valid password");
+                      } else {
+                        logger.i(
+                            "Un mínimo de ocho caracteres y al menos un número");
+                      }
+
+                      if (isValidEmail && isValidPassword) {
+                        final viewModel = ref.read(authViewModelProvider);
+                        viewModel
+                            .signIn(
+                                emailController.text, passwordController.text)
+                            .then((user) {
+                          logger.i("logged. Navigate to...");
+
+                          // Navegar a la siguiente pantalla o mostrar éxito
+                        }).catchError(
+                          (error) {
+                            logger.i("$error");
+
+                            // Mostrar mensaje de error
+                          },
+                        );
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Wrong credentials",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.SNACKBAR,
+                            timeInSecForIosWeb: 1,
+                            fontSize: 13.sp);
+                      }
                     },
                     child: Container(
                       width: kButtonWidthLandscape.w,

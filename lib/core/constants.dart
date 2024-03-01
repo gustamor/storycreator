@@ -1,3 +1,5 @@
+import 'package:story_creator/data/services/logger.dart';
+
 const kImageElfaLibro = "assets/images/elfalibro.webp";
 const kBorderTextFieldRadius = 1.5;
 const kIconTextFieldSize = 28.0;
@@ -28,3 +30,5 @@ const kButtonWidthLandscape = 120.0;
 const kButtonRadiusLandscape = 48.0;
 const kButtonFontSizeLandscape = 8.0;
 const kButtonSideLandscape = 0.4;
+
+final logger = LogImpl();
