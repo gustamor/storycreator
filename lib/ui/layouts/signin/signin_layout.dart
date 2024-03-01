@@ -9,11 +9,11 @@ class SignInLayout extends ResponsiveStatelessScreen {
 
   @override
   Widget buildLandscape(BuildContext context) {
-    return const SignLandscapeScreen();
+    return SignLandscapeScreen();
   }
 
   @override
   Widget buildPortrait(BuildContext context) {
-    return  SignPortraitScreen();
+    return SignPortraitScreen();
   }
 }

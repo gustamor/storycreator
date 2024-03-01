@@ -1,25 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
-import 'package:story_creator/ui/core/error_validate_password_enum.dart';
+import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
-class SignPortraitScreen extends ConsumerWidget {
-   SignPortraitScreen({super.key});
+
+
+class SignPortraitScreen extends ConsumerStatefulWidget {
+  const SignPortraitScreen({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SignPortraitScreenState();
+}
+
+class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
   final title = "Authorization Screen";
   final GlobalKey<FormState> _authFormkey = GlobalKey<FormState>();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+     Future(
+      () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
+    );
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
-
+   
     return CupertinoPageScaffold(
       key: const Key("scaffold_sign_portrait"),
       navigationBar: CupertinoNavigationBar(
@@ -101,39 +115,6 @@ class SignPortraitScreen extends ConsumerWidget {
                         ref
                             .read(passwordValidatorProvider.notifier)
                             .validatePassword(value);
-                        final validationState =
-                            ref.read(passwordValidatorProvider);
-
-                        print("AAA error len $validationState");
-                        if (validationState.errors
-                            .contains(ErrorValidatePassword.noLetter)) {
-                          if (kDebugMode) {
-                            print("AAA no 8 letter");
-                          }
-                        }
-                        if (validationState.errors
-                            .contains(ErrorValidatePassword.noNumber)) {
-                          if (kDebugMode) {
-                            print("AAA no 1 number");
-                          }
-                        }
-                        if (validationState.errors
-                            .contains(ErrorValidatePassword.noUpperCase)) {
-                          if (kDebugMode) {
-                            print("AAA no uppecase");
-                          }
-                        }
-                        if (validationState.errors
-                            .contains(ErrorValidatePassword.lessLengt)) {
-                          if (kDebugMode) {
-                            print("AAA less than 8 characters");
-                          }
-                        }
-                        if (validationState.errors.isEmpty) {
-                          if (kDebugMode) {
-                            print("AAA password valid");
-                          }
-                        }
                       },
                       placeholder: "Password",
                       prefix: Padding(
@@ -167,101 +148,103 @@ class SignPortraitScreen extends ConsumerWidget {
               ),
             ),
             Gap(1.h),
-            CupertinoButton(
-              onPressed: () {
-                //TODO: Navigate to Password change screen
-              },
-              child: Padding(
-                padding: EdgeInsets.only(right: 36.w),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    'Forgot password', style: TextStyle(fontSize: 10.sp),
-                    // tr('forgot_my_password'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding:  EdgeInsets.only(top: 8.h,left: 40.w),
+                  child: const PasswordValidationText(),
+                ),
+                CupertinoButton(
+                  onPressed: () {
+                    //TODO: Navigate to Password change screen
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 28.w),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        'Forgot password', style: TextStyle(fontSize: 10.sp),
+                        // tr('forgot_my_password'),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Gap(4.h),
             Padding(
               padding: EdgeInsets.all(6.r),
               child: CupertinoButton(
                 key: const Key("create_account_button"),
-                borderRadius: BorderRadius.all(Radius.circular(16.r)),
+                borderRadius: BorderRadius.all(Radius.circular(36.r)),
                 onPressed: () async {
-                  /*  var isValidPassword = false;
-                  final validationState = ref.read(passwordValidatorProvider);
-                  isValidPassword =
-                      validationState.errors.isEmpty ? true : false; */
-                  const isValidPassword = true;
-                  final isValidEmail =
-                      ref.read(emailValidationProvider(emailController.text));
-                  if (isValidEmail) {
-                    if (kDebugMode) {
-                      print("AAA valid email");
-                    }
-                  } else {
-                    if (kDebugMode) {
-                      print("AAA invalid email");
-                    }
-                  }
-                  if (isValidPassword) {
-                    if (kDebugMode) {
-                      print("AAA valid password");
-                    }
-                  } else {
-                    if (kDebugMode) {
-                      print("AAA invalid password");
-                    }
-                  }
-                  if (isValidEmail && isValidPassword) {
-                    //Navigate to create account:
-                    // 1 - verfify password
-                    // 2 - Choose username
-                  }
+                   var isValidPassword = false;
+                      final validationState =
+                          ref.read(passwordValidatorProvider);
+                      isValidPassword =
+                          validationState.errors.isEmpty ? true : false;
 
-                  final viewModel = ref.read(authViewModelProvider);
-               //   viewModel
-              /*         .createUser(emailController.text, passwordController.text)
-                      .then((_) {
-                    if (kDebugMode) {
-                      print("AAA user create");
-                      viewModel.sendEmailVerification().then((value) {
-                        if (kDebugMode) {
-                          print("AAA email sent");
-                        }
+                      final isValidEmail = ref
+                          .read(emailValidationProvider(emailController.text));
+                      if (isValidEmail) {
+                        logger.i("valid email");
+                      } else {
+                        logger.i("invalid email");
+                      }
+                      if (isValidPassword) {
+                        logger.i("valid password");
+                      } else {
+                        logger.i("invalid password");
+                      }
+                      if (isValidEmail && isValidPassword) {
+                        //Navigate to create account:
+                        // 1 - verfify password
+                        // 2 - Choose username
+                      }
+
+                      final viewModel = ref.read(authViewModelProvider);
+                      viewModel
+                          .createUser(
+                              emailController.text, passwordController.text)
+                          .then((_) {
+                        logger.i("user create");
+                        viewModel.sendEmailVerification().then((value) {
+                          logger.i("email sent");
+                        }).catchError(
+                          (error) {
+                            logger.i("$error");
+                          },
+                        );
                       }).catchError(
                         (error) {
-                          if (kDebugMode) {
-                            print("AAA $error");
-                          }
+                          logger.i("$error");
                         },
                       );
-                    }
-                  }).catchError(
-                    (error) {
-                      if (kDebugMode) {
-                        print("AAA $error");
-                      }
-                    },
-                  ); */
-
-                  await viewModel.updatePhotoURLCurrentUser(
-                      'https://fastly.picsum.photos/id/237/200/200.jpg');
-                  final p = await viewModel.getPhotoURLCurrentUser();
-                  print("AAA foto $p");
+                 
                 },
                 child: Container(
                   width: kButtonWidth.w,
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
+                    color: CupertinoColors
+                        .white, // Agrega un color de fondo si aún no lo tienes
                     border: Border.all(
                       color: CupertinoColors.black,
-                      width: 1.0.w, // Border thickness
+                      width: 0.8.w, // Border thickness
                     ),
-                    borderRadius:
-                        BorderRadius.circular(kButtonRadius.r), // Border radius
+                    borderRadius: BorderRadius.circular(kButtonRadius.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            Colors.grey.withOpacity(0.6), // Color de la sombra
+                        spreadRadius: 3.r, // Extensión de la sombra
+                        blurRadius: 36.r, // Desenfoque de la sombra
+                        offset:
+                            Offset(0, 8.h), // Cambios de posición de la sombra
+                      ),
+                    ], // Border radius
                   ),
                   child: Center(
                     child: Text(
@@ -290,36 +273,37 @@ class SignPortraitScreen extends ConsumerWidget {
 
                   if (isValidEmail) {
                     if (kDebugMode) {
-                      print("AAA valid email");
+                      logger.i("valid email");
                     }
                   } else {
                     if (kDebugMode) {
-                      print("AAA invalid email");
+                      logger.i("invalid email");
                     }
                   }
                   if (isValidPassword) {
                     if (kDebugMode) {
-                      print("AAA valid password");
+                      logger.i("valid password");
                     }
                   } else {
                     if (kDebugMode) {
-                      print(
-                          "AAA  Un mínimo de ocho caracteres y al menos un número");
+                      logger.i(
+                          "Un mínimo de ocho caracteres y al menos un número");
                     }
                   }
+
                   if (isValidEmail && isValidPassword) {
                     final viewModel = ref.read(authViewModelProvider);
                     viewModel
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
-                        print("AAA logged. Navigate to...");
+                        logger.i("logged. Navigate to...");
                       }
                       // Navegar a la siguiente pantalla o mostrar éxito
                     }).catchError(
                       (error) {
                         if (kDebugMode) {
-                          print("AAA $error");
+                          logger.i("$error");
                         }
                         // Mostrar mensaje de error
                       },
@@ -338,13 +322,24 @@ class SignPortraitScreen extends ConsumerWidget {
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
+                    color: CupertinoColors
+                        .white, // Agrega un color de fondo si aún no lo tienes
+
                     border: Border.all(
                       color: CupertinoColors.black,
-                      // Border color
-                      width: 1.0.w, // Border thickness
+                      width: 0.8.w, // Border thickness
                     ),
-                    borderRadius:
-                        BorderRadius.circular(kButtonRadius.r), // Border radius
+                    borderRadius: BorderRadius.circular(kButtonRadius.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            Colors.grey.withOpacity(0.6), // Color de la sombra
+                        spreadRadius: 3.r, // Extensión de la sombra
+                        blurRadius: 36.r, // Desenfoque de la sombra
+                        offset:
+                            Offset(0, 8.h), // Cambios de posición de la sombra
+                      ),
+                    ], // Border radius
                   ),
                   child: Center(
                     child: Text(
@@ -355,6 +350,7 @@ class SignPortraitScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            Gap(16.h),
           ],
         ),
       ),
