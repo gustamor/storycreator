@@ -3,7 +3,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/services/authentication_service.dart';
+import '../../../data/services/authentication_service.dart';
 
 class UpdateCurrentUserDisplayNameUseCase {
   final Ref ref;
