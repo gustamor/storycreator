@@ -1,11 +1,11 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'ui_user.freezed.dart';
+part 'data_user.freezed.dart';
 
 @freezed
-class UiUser with _$UiUser {
-  const factory UiUser({
+class DataUser with _$DataUser {
+  const factory DataUser({
     required String id,
     required String email,
     required String userName,
@@ -13,5 +13,5 @@ class UiUser with _$UiUser {
     @Default(false) bool isLogged,
     String? name,
     String? surname,
-  }) = _UiUser;
+  }) = _DataUser;
 }

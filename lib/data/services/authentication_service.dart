@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
+import 'package:story_creator/data/models/data_user.dart';
 import 'package:story_creator/data/providers/firebase_authentication_repo_provider.dart';
-import 'package:story_creator/ui/models/ui_user.dart';
 
 final authenticationServiceProvider = Provider<AuthenticationService>((ref) {
   final authService = AuthenticationService(ref);
@@ -13,7 +13,7 @@ class AuthenticationService {
   final Ref ref;
   AuthenticationService(this.ref);
 
-  Future<UiUser?> signIn(String email, String password) async {
+  Future<DataUser?> signIn(String email, String password) async {
     try {
       const useFirebase = true;
 
@@ -25,7 +25,7 @@ class AuthenticationService {
               email, password);
           if (user != null) {
             await user.reload();
-            return UiUser(
+            return DataUser(
               id: user.uid,
               email: user.email!,
               userName: user.displayName ?? '',
@@ -42,7 +42,7 @@ class AuthenticationService {
     }
   }
 
-  Future<UiUser?> createUser(String email, String password) async {
+  Future<DataUser?> createUser(String email, String password) async {
     try {
       const useFirebase = true;
 
@@ -54,7 +54,7 @@ class AuthenticationService {
               email, password);
           if (user != null) {
             await user.reload();
-            return UiUser(
+            return DataUser(
               id: user.uid,
               email: user.email!,
               userName: '',

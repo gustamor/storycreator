@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:story_creator/data/models/data_user.dart';
 import 'package:story_creator/data/repositories/firebase_authentication_repository.dart';
 import 'package:story_creator/data/services/authentication_service.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
@@ -17,8 +18,8 @@ class MockitoFirebaseAuthRepository extends Mock
 
 class MockitoFireBaseAuthService extends Mock implements AuthenticationService {
   @override
-  Future<UiUser?> signIn(String email, String password) async {
-    return const UiUser(email: "test@email.com", id: "id", userName: "test");
+  Future<DataUser?> signIn(String email, String password) async {
+    return const DataUser(email: "test@email.com", id: "id", userName: "test");
   }
 }
 
