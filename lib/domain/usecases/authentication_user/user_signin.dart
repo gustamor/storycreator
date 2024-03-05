@@ -10,7 +10,16 @@ class SignInUseCase {
   Future<UiUser?> invoke(String email, String password) async {
     try {
       final authService = ref.read(authenticationServiceProvider);
-      return authService.signIn(email, password);
+
+    final datauser = await authService.signIn(email, password);
+    if (datauser != null) {
+    return  UiUser(id: datauser.id,
+          email: datauser.email,
+          userName: datauser.userName,
+          isLogged: datauser.isLogged);
+    } else {
+      throw Exception();
+    }
     } catch (e) {
       throw Exception(e);
     }

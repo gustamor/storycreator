@@ -10,7 +10,15 @@ class CreateUserUseCase {
   Future<UiUser?> invoke(String email, String password) async {
     try {
       final authService = ref.read(authenticationServiceProvider);
-      return authService.createUser(email, password);
+       final dataUser = await authService.createUser(email, password);
+      if (dataUser != null) {
+        return UiUser(id: dataUser.id,
+            email: dataUser.email,
+            userName: dataUser.userName,
+            isLogged: dataUser.isLogged);
+      } else {
+         throw Exception();
+      }
     } catch (e) {
       throw Exception(e);
     }
