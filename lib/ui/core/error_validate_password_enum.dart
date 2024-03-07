@@ -5,6 +5,6 @@ enum ErrorValidatePassword {
   noLetter,
   noNumber,
   noUpperCase,
-  lessLengt,
+  lessLength,
   isFilling
 }

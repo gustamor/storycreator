@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/core/constants.dart';
@@ -36,7 +35,7 @@ class _PasswordValidationTextState
             style: TextStyle(
               fontSize: kPasswordValidationTextSize.sp,
               color:
-              validationState.errors.contains(ErrorValidatePassword.lessLengt)
+              validationState.errors.contains(ErrorValidatePassword.lessLength)
                   ? const Color(0xffff0000)
                   :const Color(0xff0000ff),
             ),
@@ -91,7 +90,7 @@ class _PasswordValidationTextState
               style: TextStyle(
                 fontSize: kPasswordValidationTextSizeLandscape.sp,
                 color:
-                validationState.errors.contains(ErrorValidatePassword.lessLengt)
+                validationState.errors.contains(ErrorValidatePassword.lessLength)
                     ? const Color(0xffff0000)
                     :const Color(0xff0000ff),
               ),

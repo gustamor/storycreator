@@ -26,7 +26,7 @@ class PasswordValidatorNotifier extends StateNotifier<PasswordValidationState> {
         errors.add(ErrorValidatePassword.noNumber);
       }
       if (!regexEightCharacters.hasMatch(password)) {
-        errors.add(ErrorValidatePassword.lessLengt);
+        errors.add(ErrorValidatePassword.lessLength);
       }
       if (!regexContainsUppercase.hasMatch(password)) {
         errors.add(ErrorValidatePassword.noUpperCase);
