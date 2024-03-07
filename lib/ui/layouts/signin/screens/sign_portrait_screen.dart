@@ -7,12 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
+import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
-
-
 
 class SignPortraitScreen extends ConsumerStatefulWidget {
   const SignPortraitScreen({super.key});
@@ -28,12 +27,12 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
 
   @override
   Widget build(BuildContext context) {
-     Future(
+    Future(
       () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
     );
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
-   
+
     return CupertinoPageScaffold(
       key: const Key("scaffold_sign_portrait"),
       navigationBar: CupertinoNavigationBar(
@@ -152,7 +151,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding:  EdgeInsets.only(top: 8.h,left: 40.w),
+                  padding: EdgeInsets.only(top: 8.h, left: 40.w),
                   child: const PasswordValidationText(),
                 ),
                 CupertinoButton(
@@ -179,57 +178,57 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("create_account_button"),
                 borderRadius: BorderRadius.all(Radius.circular(36.r)),
                 onPressed: () async {
-                   var isValidPassword = false;
-                      final validationState =
-                          ref.read(passwordValidatorProvider);
-                      isValidPassword =
-                          validationState.errors.isEmpty ? true : false;
+                  var isValidPassword = false;
+                  final validationState = ref.read(passwordValidatorProvider);
+                  isValidPassword =
+                      validationState.errors.isEmpty ? true : false;
 
-                      final isValidEmail = ref
-                          .read(emailValidationProvider(emailController.text));
-                      if (isValidEmail) {
-                        logger.i("valid email");
-                      } else {
-                        logger.i("invalid email");
-                      }
-                      if (isValidPassword) {
-                        logger.i("valid password");
-                      } else {
-                        logger.i("invalid password");
-                      }
-                      if (isValidEmail && isValidPassword) {
-                        //Navigate to create account:
-                        // 1 - verfify password
-                        // 2 - Choose username
-                      }
+                  final isValidEmail =
+                      ref.read(emailValidationProvider(emailController.text));
+                  if (isValidEmail) {
+                    logger.i("valid email");
+                  } else {
+                    logger.i("invalid email");
+                  }
+                  if (isValidPassword) {
+                    logger.i("valid password");
+                  } else {
+                    logger.i("invalid password");
+                  }
+                  if (isValidEmail && isValidPassword) {
+                    //Navigate to create account:
+                    // 1 - verfify password
+                    // 2 - Choose username
+                         final viewModel = ref.read(authViewModelProvider);
+                  viewModel
+                      .createUser(emailController.text, passwordController.text)
+                      .then((_) {
+                    logger.i("user create");
+                    viewModel.sendEmailVerification().then((value) {
+                      logger.d("email sent");
+                       Navigator.pushNamed(context, UpdateDisplayNameLayout.route,);
 
-                      final viewModel = ref.read(authViewModelProvider);
-                      viewModel
-                          .createUser(
-                              emailController.text, passwordController.text)
-                          .then((_) {
-                        logger.i("user create");
-                        viewModel.sendEmailVerification().then((value) {
-                          logger.i("email sent");
-                        }).catchError(
-                          (error) {
-                            logger.i("$error");
-                          },
-                        );
-                      }).catchError(
-                        (error) {
-                          logger.i("$error");
-                        },
-                      );
-                 
+                    }).catchError(
+                      (error) {
+                        logger.i("$error");
+                      },
+                    );
+                  }).catchError(
+                    (error) {
+                      logger.i("$error");
+                    },
+                  );
+                  }
+
+                Navigator.pushNamed(context, UpdateDisplayNameLayout.route,);
+
                 },
                 child: Container(
                   width: kButtonWidth.w,
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
-                    color: CupertinoColors
-                        .white, // Agrega un color de fondo si aún no lo tienes
+                    color: CupertinoColors.white,
                     border: Border.all(
                       color: CupertinoColors.black,
                       width: 0.8.w, // Border thickness
@@ -237,12 +236,10 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                     borderRadius: BorderRadius.circular(kButtonRadius.r),
                     boxShadow: [
                       BoxShadow(
-                        color:
-                            Colors.grey.withOpacity(0.6), // Color de la sombra
-                        spreadRadius: 3.r, // Extensión de la sombra
-                        blurRadius: 36.r, // Desenfoque de la sombra
-                        offset:
-                            Offset(0, 8.h), // Cambios de posición de la sombra
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 3.r,
+                        blurRadius: 36.r,
+                        offset: Offset(0, 8.h),
                       ),
                     ], // Border radius
                   ),
@@ -322,8 +319,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
-                    color: CupertinoColors
-                        .white, // Agrega un color de fondo si aún no lo tienes
+                    color: CupertinoColors.white,
 
                     border: Border.all(
                       color: CupertinoColors.black,
@@ -332,12 +328,10 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                     borderRadius: BorderRadius.circular(kButtonRadius.r),
                     boxShadow: [
                       BoxShadow(
-                        color:
-                            Colors.grey.withOpacity(0.6), // Color de la sombra
-                        spreadRadius: 3.r, // Extensión de la sombra
-                        blurRadius: 36.r, // Desenfoque de la sombra
-                        offset:
-                            Offset(0, 8.h), // Cambios de posición de la sombra
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 3.r,
+                        blurRadius: 36.r,
+                        offset: Offset(0, 8.h),
                       ),
                     ], // Border radius
                   ),

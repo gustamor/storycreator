@@ -14,6 +14,7 @@ const kButtonWidth = 220.0;
 const kButtonRadius = 48.0;
 const kButtonFontSize = 18.0;
 const kButtonSide = 1.0;
+const kPasswordValidationTextSize = 10.0;
 
 
 const kImageElfaLibroLand = "assets/images/elfalibroland.webp";
@@ -30,5 +31,7 @@ const kButtonWidthLandscape = 120.0;
 const kButtonRadiusLandscape = 48.0;
 const kButtonFontSizeLandscape = 8.0;
 const kButtonSideLandscape = 0.4;
+const kPasswordValidationTextSizeLandscape = 7.0;
+
 
 final logger = LogImpl();

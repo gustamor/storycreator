@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/firebase_options.dart';
+import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/theme_mode.dart';
 import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
 import 'package:story_creator/ui/themes/colors.dart';
 import 'core/initializers.dart';
 
 final initialize = Init();
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,6 +79,8 @@ class _AiAppState extends ConsumerState<AiApp> {
         initialRoute: SignInLayout.route,
         routes: {
           SignInLayout.route: (context) => const SignInLayout(),
+          UpdateDisplayNameLayout.route: (context) =>
+              const UpdateDisplayNameLayout(),
         });
   }
 }
