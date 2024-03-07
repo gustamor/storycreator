@@ -7,15 +7,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:story_creator/ui/layouts/signin/screens/sign_landscape_screen.dart';
 
 void main() {
-  group("sign in screen portarait widgets", () {
+  group("sign in screen landscape widgets", () {
     testWidgets('scaffold_sign_landscape widget should exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
+         ProviderScope(
+           child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignLandscapeScreen(),
+            ),
+                   ),
+         ),
       );
       await tester.pumpAndSettle();
       final scaffoldFinder = find.byKey(const Key('scaffold_sign_landscape'));
@@ -24,13 +26,15 @@ void main() {
 
     testWidgets('sign_nav_titleL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final navBarFinder = find.byKey(const Key('sign_nav_titleL'));
       expect(navBarFinder, findsOneWidget);
@@ -38,9 +42,11 @@ void main() {
 
     testWidgets('imageBoxL widget should exists', (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignLandscapeScreen(),
+            ),
           ),
         ),
       );
@@ -51,13 +57,15 @@ void main() {
 
     testWidgets('imageAssetL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final imageAssetFinder = find.byKey(const Key('imageAssetL'));
       expect(imageAssetFinder, findsOneWidget);
@@ -65,13 +73,15 @@ void main() {
 
     testWidgets('emailFieldL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final emailFieldFinder = find.byKey(const Key('emailFieldL'));
       expect(emailFieldFinder, findsOneWidget);
@@ -79,13 +89,15 @@ void main() {
 
     testWidgets('passwordFieldL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final passwordFieldFinder = find.byKey(const Key('passwordFieldL'));
       expect(passwordFieldFinder, findsOneWidget);
@@ -93,13 +105,15 @@ void main() {
 
     testWidgets('create_account_buttonL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final createAccountButtonFinder =
           find.byKey(const Key('create_account_buttonL'));
@@ -108,13 +122,15 @@ void main() {
 
     testWidgets('log_in_buttonL widget should exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final loginButtonFinder = find.byKey(const Key('log_in_buttonL'));
       expect(loginButtonFinder, findsOneWidget);
@@ -122,9 +138,11 @@ void main() {
 
     testWidgets('should form field widget exists', (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignLandscapeScreen(),
+            ),
           ),
         ),
       );
@@ -139,13 +157,15 @@ void main() {
 
     testWidgets('should log_in_button widget works',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignLandscapeScreen(),
-          ),
-        ),
-      );
+          await tester.pumpWidget(
+            ProviderScope(
+              child: CupertinoApp(
+                home: ScreenUtilInit(
+                  child: SignLandscapeScreen(),
+                ),
+              ),
+            ),
+          );
       await tester.pumpAndSettle();
       final Finder submitButton = find.byKey(const Key('log_in_buttonL'));
       await tester.tap(submitButton);

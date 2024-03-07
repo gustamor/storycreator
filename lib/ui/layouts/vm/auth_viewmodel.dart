@@ -89,7 +89,6 @@ class AuthViewModel {
     } catch (e) {
       throw Exception(e);
     }
-  
   }
 
     Future<void> updatePhotoURLCurrentUser(String newPhotoURL) async {

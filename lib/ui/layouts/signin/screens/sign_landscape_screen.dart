@@ -152,7 +152,7 @@ class SignLandscapeScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding:  EdgeInsets.only(top: 8.h,left: 40.w),
+                  padding:  EdgeInsets.only(top: 8.h,left: 16.w),
                   child: const PasswordValidationText(),
                 ),
                 CupertinoButton(
@@ -164,7 +164,7 @@ class SignLandscapeScreen extends ConsumerWidget {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        'Forgot password', style: TextStyle(fontSize: 10.sp),
+                        'Forgot password', style: TextStyle(fontSize: 7.sp),
                         // tr('forgot_my_password'),
                       ),
                     ),

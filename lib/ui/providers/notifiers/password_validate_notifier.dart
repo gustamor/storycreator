@@ -9,7 +9,6 @@ class PasswordValidatorNotifier extends StateNotifier<PasswordValidationState> {
   void validatePassword(String password) {
     List<ErrorValidatePassword> errors = [];
 
-    // Definiciones de regex según tu especificación
     RegExp regex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$');
     RegExp regexEightCharacters = RegExp(r'.{8,}');
     RegExp regexContainsLetters = RegExp(r'[a-zA-Z]');

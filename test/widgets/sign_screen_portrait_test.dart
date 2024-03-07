@@ -1,18 +1,21 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:story_creator/ui/layouts/signin/screens/sign_portrait_screen.dart';
 
 void main() {
-  group("sign in screen portarait widgets", () {
+  group("sign in screen portrait widgets", () {
     testWidgets('should sign screen scaffold widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
-          ),
-        ),
+         ProviderScope(
+           child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
+                   ),
+         ),
       );
       await tester.pumpAndSettle();
       final scaffoldFinder = find.byKey(const Key('scaffold_sign_portrait'));
@@ -22,9 +25,11 @@ void main() {
     testWidgets('should sign screen navigation bar widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -37,9 +42,11 @@ void main() {
     testWidgets('should sign screen password text field  widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -52,9 +59,11 @@ void main() {
     testWidgets('should sign screen email text field widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -67,9 +76,11 @@ void main() {
     testWidgets('should sign screen create account button widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -83,9 +94,11 @@ void main() {
     testWidgets('should sign screen login button widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -97,9 +110,11 @@ void main() {
 
     testWidgets('should form field widget exists', (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );
@@ -114,9 +129,11 @@ void main() {
     testWidgets('should log_in_button widget works',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-         CupertinoApp(
-          home: ScreenUtilInit(
-            child: SignPortraitScreen(),
+        ProviderScope(
+          child: CupertinoApp(
+            home: ScreenUtilInit(
+              child: SignPortraitScreen(),
+            ),
           ),
         ),
       );

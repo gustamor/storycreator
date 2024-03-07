@@ -295,9 +295,7 @@ void main() {
       String newPhotoUrl = 'https://fastly.picsum.photos/id/237/200/200.jpg';
       await mockAuth.currentUser!.updateDisplayName(newPhotoUrl);
       await mockAuth.currentUser!.reload();
-
       final updatedDisplayName = mockAuth.currentUser!.displayName;
-
       expect(updatedDisplayName, equals(newPhotoUrl));
     });
   });
