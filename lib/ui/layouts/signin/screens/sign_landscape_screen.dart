@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
+import 'package:story_creator/ui/layouts/main/main_layout.dart';
+import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
@@ -198,8 +200,6 @@ class SignLandscapeScreen extends ConsumerWidget {
                       }
                       if (isValidEmail && isValidPassword) {
                         //Navigate to create account:
-                        // 1 - verfify password
-                        // 2 - Choose username
                       }
 
                       final viewModel = ref.read(authViewModelProvider);
@@ -208,8 +208,15 @@ class SignLandscapeScreen extends ConsumerWidget {
                               emailController.text, passwordController.text)
                           .then((_) {
                         logger.i("user create");
+                                                // 1 - verify password
+
                         viewModel.sendEmailVerification().then((value) {
                           logger.i("email sent");
+                           // 2 - Choose username
+                        Navigator.pushNamed(
+                          context,
+                          UpdateDisplayNameLayout.route,
+                        );
                         }).catchError(
                           (error) {
                             logger.i("$error");
@@ -280,7 +287,7 @@ class SignLandscapeScreen extends ConsumerWidget {
                             .then((user) {
                           logger.i("logged. Navigate to...");
 
-                          // Navegar a la siguiente pantalla o mostrar éxito
+                      Navigator.pushReplacementNamed(context, MainLayout.route);
                         }).catchError(
                           (error) {
                             logger.i("$error");

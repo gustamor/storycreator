@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/ui/providers/theme_mode.dart';
 import 'package:story_creator/ui/themes/colors.dart';
-
+/* 
 class MainPortraitScreen extends ConsumerWidget {
   const MainPortraitScreen({super.key, required this.title});
   final String title;
@@ -80,3 +80,4 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
     }
   }
 }
+ */
