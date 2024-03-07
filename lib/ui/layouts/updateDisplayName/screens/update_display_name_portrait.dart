@@ -17,12 +17,12 @@ class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
 
     return CupertinoPageScaffold(
       key: const Key('displayname_scaffold_portrait'),
-      navigationBar:  CupertinoNavigationBar(
+      navigationBar: CupertinoNavigationBar(
         leading: GestureDetector(
-          onTap:() {
-            Navigator.pop(context);
-          },
-          child: const Icon(CupertinoIcons.back)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(CupertinoIcons.back)),
         previousPageTitle: "Authorization",
         middle: const Text(
           'Name Screen',
@@ -35,7 +35,7 @@ class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
         children: [
           Gap(196.h),
           Text(
-            key: Key('display_name_label_portrait'),
+            key: const Key('display_name_label_portrait'),
             "¿Cómo quieres que te llamemos?",
             style: TextStyle(fontSize: kButtonFontSize.sp),
           ),
@@ -54,7 +54,8 @@ class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
                 prefix: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: kIconTextFieldPadding.w),
-                  child: Icon(CupertinoIcons.person, size: kIconTextFieldSize.sp),
+                  child:
+                      Icon(CupertinoIcons.person, size: kIconTextFieldSize.sp),
                 ),
                 prefixMode: OverlayVisibilityMode.always,
                 autocorrect: true,
@@ -77,47 +78,41 @@ class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
             ),
           ),
           Gap(24.h),
-
-Padding(
-              padding: EdgeInsets.all(6.r),
-              child: CupertinoButton(
-                key: const Key("display_name_button_portrait"),
-                borderRadius: BorderRadius.all(Radius.circular(34.r)),
-                onPressed: () async {
-                 
-                },
-                child: Container(
-                  width: kButtonWidth.w,
-                  height: kButtonHeight.h,
-                  padding: EdgeInsets.all(12.0.r),
-                  decoration: BoxDecoration(
-                    color: CupertinoColors
-                        .white,
-                    border: Border.all(
-                      color: CupertinoColors.black,
-                      width: 0.8.w, // Border thickness
-                    ),
-                    borderRadius: BorderRadius.circular(kButtonRadius.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            Colors.grey.withOpacity(0.6),
-                        spreadRadius: 3.r, 
-                        blurRadius: 36.r, 
-                        offset:
-                            Offset(0, 8.h),
-                      ),
-                    ], // Border radius
+          Padding(
+            padding: EdgeInsets.all(6.r),
+            child: CupertinoButton(
+              key: const Key("display_name_button_portrait"),
+              borderRadius: BorderRadius.all(Radius.circular(34.r)),
+              onPressed: () async {},
+              child: Container(
+                width: kButtonWidth.w,
+                height: kButtonHeight.h,
+                padding: EdgeInsets.all(12.0.r),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.white,
+                  border: Border.all(
+                    color: CupertinoColors.black,
+                    width: 0.8.w, // Border thickness
                   ),
-                  child: Center(
-                    child: Text(
-                      "Log In",
-                      style: TextStyle(fontSize: kButtonFontSize.sp),
+                  borderRadius: BorderRadius.circular(kButtonRadius.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.6),
+                      spreadRadius: 3.r,
+                      blurRadius: 36.r,
+                      offset: Offset(0, 8.h),
                     ),
+                  ], // Border radius
+                ),
+                child: Center(
+                  child: Text(
+                    "Log In",
+                    style: TextStyle(fontSize: kButtonFontSize.sp),
                   ),
                 ),
               ),
             ),
+          ),
         ],
       )),
     );

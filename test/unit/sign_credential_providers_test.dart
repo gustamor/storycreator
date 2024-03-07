@@ -27,7 +27,7 @@ class MockitoFireBaseAuthService extends Mock implements AuthenticationService {
 void main() {
   const email = "gustavo.pinebox@gmail.com";
   const password = "abcdefgh1";
-  group('Firebase authenticacion Provider Tests', () {
+  group('Firebase authentication Provider Tests', () {
     test("should email expected is ''", () async {
       final container = ProviderContainer();
       final emailProvided = container.read(emailProvider);
@@ -85,7 +85,6 @@ void main() {
     });
 
     test("should signIn returns a MockUiUser instance", () async {
-      // Creación correcta de un mock
       final mockitoFireBaseAuthService = MockitoFireBaseAuthService();
       final user = await mockitoFireBaseAuthService.signIn(email, password);
 
@@ -228,15 +227,12 @@ void main() {
         email: email,
         password: password,
       );
-      // Actualizar el displayName del usuario
       String newDisplayName = 'Updated Name';
       await mockAuth.currentUser!.updateDisplayName(newDisplayName);
       await mockAuth.currentUser!.reload();
 
-      // Obtener el displayName actualizado
       final updatedDisplayName = mockAuth.currentUser!.displayName;
 
-      // Verificar que el displayName ha sido actualizado correctamente
       expect(updatedDisplayName, equals(newDisplayName));
     });
 
