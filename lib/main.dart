@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/firebase_options.dart';
+import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/theme_mode.dart';
 import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
@@ -78,6 +79,7 @@ class _AiAppState extends ConsumerState<AiApp> {
         ),
         initialRoute: SignInLayout.route,
         routes: {
+          MainLayout.route: (context) => const MainLayout(),
           SignInLayout.route: (context) => const SignInLayout(),
           UpdateDisplayNameLayout.route: (context) =>
               const UpdateDisplayNameLayout(),

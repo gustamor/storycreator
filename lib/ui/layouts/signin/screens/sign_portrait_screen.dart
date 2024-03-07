@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
+import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
@@ -197,31 +198,32 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   }
                   if (isValidEmail && isValidPassword) {
                     //Navigate to create account:
-                    // 1 - verfify password
-                    // 2 - Choose username
-                         final viewModel = ref.read(authViewModelProvider);
-                  viewModel
-                      .createUser(emailController.text, passwordController.text)
-                      .then((_) {
-                    logger.i("user create");
-                    viewModel.sendEmailVerification().then((value) {
-                      logger.d("email sent");
-                       Navigator.pushNamed(context, UpdateDisplayNameLayout.route,);
 
+                    final viewModel = ref.read(authViewModelProvider);
+                    viewModel
+                        .createUser(
+                            emailController.text, passwordController.text)
+                        .then((_) {
+                      logger.i("user create");
+                      // 1 - verify email
+                      viewModel.sendEmailVerification().then((value) {
+                        logger.d("email sent");
+                        // 2 - Choose username
+                        Navigator.pushNamed(
+                          context,
+                          UpdateDisplayNameLayout.route,
+                        );
+                      }).catchError(
+                        (error) {
+                          logger.i("$error");
+                        },
+                      );
                     }).catchError(
                       (error) {
                         logger.i("$error");
                       },
                     );
-                  }).catchError(
-                    (error) {
-                      logger.i("$error");
-                    },
-                  );
                   }
-
-                Navigator.pushNamed(context, UpdateDisplayNameLayout.route,);
-
                 },
                 child: Container(
                   width: kButtonWidth.w,
@@ -296,7 +298,8 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       if (kDebugMode) {
                         logger.i("logged. Navigate to...");
                       }
-                      // Navegar a la siguiente pantalla o mostrar éxito
+
+                      Navigator.pushReplacementNamed(context, MainLayout.route);
                     }).catchError(
                       (error) {
                         if (kDebugMode) {
