@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:story_creator/ui/abstract/responsive/responsive_stateless_screen.dart';
+import 'package:story_creator/ui/abstract/responsive/responsive_stateful_screen.dart';
 import 'package:story_creator/ui/layouts/main/screens/main_landscape_screen.dart';
 import 'package:story_creator/ui/layouts/main/screens/main_portrait_screen.dart';
 
-class MainLayout extends ResponsiveStatelessScreen {
+class MainLayout extends ResponsiveStatefulScreen {
   static String route = '/main';
   const MainLayout({super.key});
 

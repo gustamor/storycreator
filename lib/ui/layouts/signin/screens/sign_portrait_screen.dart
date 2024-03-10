@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
+import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
@@ -147,28 +148,28 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ],
               ),
             ),
-            Gap(1.h),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h, left: 40.w),
-                  child: const PasswordValidationText(),
-                ),
                 CupertinoButton(
                   onPressed: () {
-                    //TODO: Navigate to Password change screen
+                    Navigator.pushNamed(
+                        context, SendPasswordResetLinkLayout.route);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 28.w),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        'Forgot password', style: TextStyle(fontSize: 10.sp),
+                        'Forgot password', style: TextStyle(fontSize: 7.sp),
                         // tr('forgot_my_password'),
                       ),
                     ),
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 0, left: 40.w),
+                  child: const PasswordValidationText(),
                 ),
               ],
             ),
@@ -179,9 +180,8 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("create_account_button"),
                 borderRadius: BorderRadius.all(Radius.circular(36.r)),
                 onPressed: () async {
-                  var isValidPassword = false;
                   final validationState = ref.read(passwordValidatorProvider);
-                  isValidPassword =
+                  final isValidPassword =
                       validationState.errors.isEmpty ? true : false;
 
                   final isValidEmail =
@@ -190,10 +190,23 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                     logger.i("valid email");
                   } else {
                     logger.i("invalid email");
+                    Fluttertoast.showToast(
+                        msg: "Wrong email",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 1,
+                        fontSize: 13.sp);
                   }
                   if (isValidPassword) {
                     logger.i("valid password");
                   } else {
+                    Fluttertoast.showToast(
+                        msg: "Wrong password",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 1,
+                        fontSize: 13.sp);
+
                     logger.i("invalid password");
                   }
                   if (isValidEmail && isValidPassword) {
@@ -216,13 +229,33 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       }).catchError(
                         (error) {
                           logger.i("$error");
+                          Fluttertoast.showToast(
+                              msg: "Wrong credentials",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.SNACKBAR,
+                              timeInSecForIosWeb: 1,
+                              fontSize: 13.sp);
                         },
                       );
                     }).catchError(
                       (error) {
                         logger.i("$error");
+                        Fluttertoast.showToast(
+                            msg: "Some error",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.SNACKBAR,
+                            timeInSecForIosWeb: 1,
+                            fontSize: 13.sp);
                       },
                     );
+                  } else {
+                    logger.i("invalid crendetial");
+                    Fluttertoast.showToast(
+                        msg: "Wrong credentials",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 1,
+                        fontSize: 13.sp);
                   }
                 },
                 child: Container(
@@ -289,14 +322,13 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                           "Un mínimo de ocho caracteres y al menos un número");
                     }
                   }
-
                   if (isValidEmail && isValidPassword) {
                     final viewModel = ref.read(authViewModelProvider);
                     viewModel
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
-                        logger.i("logged. Navigate to...");
+                        logger.i("logged. Navigate to MainLayout");
                       }
 
                       Navigator.pushReplacementNamed(context, MainLayout.route);
@@ -304,6 +336,12 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       (error) {
                         if (kDebugMode) {
                           logger.i("$error");
+                          Fluttertoast.showToast(
+                              msg: "Wrong credentials",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.SNACKBAR,
+                              timeInSecForIosWeb: 1,
+                              fontSize: 13.sp);
                         }
                         // Mostrar mensaje de error
                       },

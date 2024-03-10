@@ -9,7 +9,7 @@ void main() {
     testWidgets('should display name landscape screen scaffold widget exists',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-        ProviderScope(
+        const ProviderScope(
           child: CupertinoApp(
             home: ScreenUtilInit(
               child: UpdateDisplayNameLandscapeScreen(),
@@ -27,7 +27,7 @@ void main() {
   testWidgets('should display name landscape screen text one widget exists',
       (WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      const ProviderScope(
         child: CupertinoApp(
           home: ScreenUtilInit(
             child: UpdateDisplayNameLandscapeScreen(),
@@ -42,7 +42,7 @@ void main() {
   testWidgets('should display name landscape screen text field widget exists',
       (WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      const ProviderScope(
         child: CupertinoApp(
           home: ScreenUtilInit(
             child: UpdateDisplayNameLandscapeScreen(),
@@ -59,7 +59,7 @@ void main() {
   testWidgets('should display name landscape screen button widget exists',
       (WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      const ProviderScope(
         child: CupertinoApp(
           home: ScreenUtilInit(
             child: UpdateDisplayNameLandscapeScreen(),
@@ -71,4 +71,24 @@ void main() {
     final buttonFinder = find.byKey(const Key('display_name_button_landscape'));
     expect(buttonFinder, findsOneWidget);
   });
+
+  testWidgets('should display name landscape screen gesture exist',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: CupertinoApp(
+          home: ScreenUtilInit(
+            child: UpdateDisplayNameLandscapeScreen(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final gestureFinder = find.byKey(const Key('displayname_gesture_landscape'));
+    expect(gestureFinder, findsOneWidget);
+  });
+
+
+
+
 }
