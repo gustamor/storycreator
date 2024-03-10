@@ -4,26 +4,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
+import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
 import 'package:story_creator/ui/providers/displayname_controller_provider.dart';
 
-class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
-  UpdateDisplayNamePortraitScreen({super.key});
+
+class UpdateDisplayNamePortraitScreen extends ConsumerStatefulWidget {
+  const UpdateDisplayNamePortraitScreen ({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _UpdateDisplayNamePortraitScreenState();
+}
+
+class _UpdateDisplayNamePortraitScreenState extends ConsumerState<UpdateDisplayNamePortraitScreen> {
   final GlobalKey<FormState> _displayNameFormkey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final displayNameController =
+  Widget build(BuildContext context) {
+   final displayNameController =
         ref.watch(displayNameControllerProvider.notifier).state;
 
     return CupertinoPageScaffold(
       key: const Key('displayname_scaffold_portrait'),
       navigationBar: CupertinoNavigationBar(
         leading: GestureDetector(
+            key: const Key("displayname_gesture_portrait"),
             onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(CupertinoIcons.back)),
-        previousPageTitle: "Authorization",
+        previousPageTitle: SignInLayout.route,
         middle: const Text(
           'Name Screen',
           key: Key("displayname_title_portrait"),
@@ -118,3 +127,4 @@ class UpdateDisplayNamePortraitScreen extends ConsumerWidget {
     );
   }
 }
+

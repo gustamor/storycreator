@@ -198,7 +198,7 @@ void main() {
 
       final auth = MockFirebaseAuth(mockUser: mockUser, signedIn: false);
 
-      final result = await auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -223,7 +223,7 @@ void main() {
         displayName: 'Initial Name',
       );
       final mockAuth = MockFirebaseAuth(mockUser: mockUser);
-      final result = await mockAuth.signInWithEmailAndPassword(
+      await mockAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -236,11 +236,9 @@ void main() {
       expect(updatedDisplayName, equals(newDisplayName));
     });
 
-
-      test('update the password for the current user', () async {
-
-       const ema = "test_123@gustavomoreno.es";
-       const pass = "aBcdefgh2";
+    test('update the password for the current user', () async {
+      const ema = "test_123@gustavomoreno.es";
+      const pass = "aBcdefgh2";
       final mockUser = MockUser(
         isAnonymous: false,
         uid: 'someuid',
@@ -260,21 +258,19 @@ void main() {
       await mockAuth.currentUser!.updatePassword(newPassword);
       await mockAuth.currentUser!.reload();
 
-  await mockAuth.signOut();
+      await mockAuth.signOut();
       expect(mockAuth.currentUser, isNot(equals(mockUser)));
 
       // Logear coc
       final result2 = await mockAuth.signInWithEmailAndPassword(
         email: ema,
-        password: newPassword ,
+        password: newPassword,
       );
 
       final user2 = result2.user;
       expect(user2!.email, equals(ema));
       expect(mockAuth.currentUser, equals(mockUser));
-
     });
-
 
     test('update and get the photoURL for the user', () async {
       final mockUser = MockUser(
@@ -284,7 +280,7 @@ void main() {
         displayName: 'Initial Name',
       );
       final mockAuth = MockFirebaseAuth(mockUser: mockUser);
-      final result = await mockAuth.signInWithEmailAndPassword(
+      await mockAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

@@ -29,4 +29,5 @@ class LogImpl {
       logger.e(message);
     }
   }
+  
 }

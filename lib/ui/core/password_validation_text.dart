@@ -74,7 +74,7 @@ class _PasswordValidationTextState
         ],
       );
     } else {
-      return Column(
+      return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
