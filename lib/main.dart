@@ -85,6 +85,7 @@ class _AiAppState extends ConsumerState<AiApp> {
           UpdateDisplayNameLayout.route: (context) =>
               const UpdateDisplayNameLayout(),
           SendPasswordResetLinkLayout.route: (context) => const SendPasswordResetLinkLayout()
-        });
-  }
+        },
+      );
+    }
 }
