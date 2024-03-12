@@ -234,7 +234,7 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                             // 2 - Choose username
                             Navigator.pushNamed(
                               context,
-                              UpdateDisplayNameLayout.route,
+                              SendPasswordResetLinkLayout.route,
                             );
                           }).catchError(
                             (error) {

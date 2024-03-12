@@ -142,7 +142,7 @@ class AuthenticationService {
         } catch (e) {
           throw Exception(e);
         }
-      }
+      } 
     } catch (e) {
       throw Exception(e);
     }

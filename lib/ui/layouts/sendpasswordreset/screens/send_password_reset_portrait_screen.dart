@@ -50,7 +50,9 @@ class _SendPasswordResetLinkPortraitScreenState
             child: CupertinoButton(
               key: const Key("resetpassword_button_portrait"),
               borderRadius: BorderRadius.all(Radius.circular(34.r)),
-              onPressed: () async {},
+              onPressed: () async {
+                   Navigator.pop(context);
+              },
               child: Container(
                 width: kButtonWidth.w,
                 height: kButtonHeight.h,

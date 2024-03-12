@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_change_password_usecase_privoder.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_createuser_usecase_provider.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_get_displayname_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_get_photourl_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_logout_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_reset_password_usecase_provider.dart';
@@ -8,6 +9,7 @@ import 'package:story_creator/domain/providers/authentication_user/user_sendemai
 import 'package:story_creator/domain/providers/authentication_user/user_signin_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_displayname_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_photourl_proivder.dart';
+import 'package:story_creator/domain/usecases/authentication_user/user_get_displayname.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
 class AuthViewModel {
@@ -65,8 +67,10 @@ class AuthViewModel {
   Future<void> updateDisplayNameCurrentUser(String displayName) async {
     try {
       final updateDisplayNameCurrentUserUseCase =
-          ref.read(updateDisplayNameCurrentUserUseCaseProvider);
-      return await updateDisplayNameCurrentUserUseCase.invoke(displayName);
+          ref.read(updateDisplayNameCurrentUserUseCaseProvider(displayName));
+      if (updateDisplayNameCurrentUserUseCase != null) {
+        return await updateDisplayNameCurrentUserUseCase.invoke(displayName);
+      }
     } catch (e) {
       throw Exception(e);
     }
@@ -75,8 +79,13 @@ class AuthViewModel {
   Future<String> getDisplayNameCurrentUser() async {
     try {
       final getCurrentUserDisplayNameUseCase =
-          ref.read(getCurrentUserPhotoURLUseCaseProvider);
-      return await getCurrentUserDisplayNameUseCase.invoke();
+          ref.read(getCurrentUserDisplayNameUseCaseProvider);
+      final name = await getCurrentUserDisplayNameUseCase.invoke();
+      if (name.isNotEmpty) {
+        return name;
+      } else {
+        return "";
+      }
     } catch (e) {
       throw Exception(e);
     }
@@ -84,14 +93,15 @@ class AuthViewModel {
 
   Future<void> changeUserPassword(String newPassword) async {
     try {
-      final changeUserPasswordUseCase = ref.read(changeUserPasswordUseCaseProvider);
+      final changeUserPasswordUseCase =
+          ref.read(changeUserPasswordUseCaseProvider);
       await changeUserPasswordUseCase.invoke(newPassword);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-    Future<void> updatePhotoURLCurrentUser(String newPhotoURL) async {
+  Future<void> updatePhotoURLCurrentUser(String newPhotoURL) async {
     try {
       final updatePhotoURLCurrentUserUseCase =
           ref.read(updatePhotoURLCurrentUserUseCaseProvider);
@@ -100,7 +110,6 @@ class AuthViewModel {
       throw Exception(e);
     }
   }
-
 
   Future<String> getPhotoURLCurrentUser() async {
     try {

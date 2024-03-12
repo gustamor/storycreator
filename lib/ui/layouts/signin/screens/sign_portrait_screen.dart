@@ -224,7 +224,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         // 2 - Choose username
                         Navigator.pushNamed(
                           context,
-                          UpdateDisplayNameLayout.route,
+                          SendPasswordResetLinkLayout.route,
                         );
                       }).catchError(
                         (error) {
@@ -328,10 +328,25 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
-                        logger.i("logged. Navigate to MainLayout");
+                        logger.i("logged. Navigate to MainLayout or Update");
                       }
+                      viewModel.getDisplayNameCurrentUser().then(
+                        (value) {
+                           logger.i("AAA $value ");
+                          if (value.isNotEmpty) {
+                            if (kDebugMode) {
+                              logger.i("logged. Navigate to MainLayout ");
+                            }
+                            Navigator.pushReplacementNamed(
+                                context, MainLayout.route);
+                          } else {
+                            logger.i("logged. Navigate to UpdateDisplayName ");
 
-                      Navigator.pushReplacementNamed(context, MainLayout.route);
+                            Navigator.pushReplacementNamed(
+                                context, UpdateDisplayNameLayout.route);
+                          }
+                        },
+                      );
                     }).catchError(
                       (error) {
                         if (kDebugMode) {
