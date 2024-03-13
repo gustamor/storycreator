@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_creator/core/constants.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_authorization_changes_provider.dart';
 import 'package:story_creator/firebase_options.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
@@ -65,10 +67,36 @@ class _AiAppState extends ConsumerState<AiApp> {
     }
   }
 
+  authChecker(WidgetRef ref) {
+    final sessionState = ref.watch(userAuthChangesProviderUseCase);
+    sessionState.when(
+      data: (user) {
+        if (user != null && user.emailVerified) {
+          // initialRoute = AssistantsScreen.route;
+          logger.d(
+            "UUU user is logged",
+          );
+        } else {
+          // initialRoute = AuthScreen.route;
+          logger.d(
+            "UUU user is not logged",
+          );
+        }
+      },
+      error: (_, __) {
+        // initialRoute = AuthScreen.route;
+        logger.d("UUU auth error");
+      },
+      loading: () => logger.d(
+        "UUU loading",
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
-
+    authChecker(ref);
     return CupertinoApp(
         theme: AppThemes.appThemeData[theme],
         home: const ScreenUtilInit(
@@ -84,7 +112,8 @@ class _AiAppState extends ConsumerState<AiApp> {
           SignInLayout.route: (context) => const SignInLayout(),
           UpdateDisplayNameLayout.route: (context) =>
               const UpdateDisplayNameLayout(),
-          SendPasswordResetLinkLayout.route: (context) => const SendPasswordResetLinkLayout()
+          SendPasswordResetLinkLayout.route: (context) =>
+              const SendPasswordResetLinkLayout()
         });
   }
 }
