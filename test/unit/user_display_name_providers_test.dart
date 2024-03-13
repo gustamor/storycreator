@@ -29,7 +29,6 @@ void main() {
         'should update a display name',
         () async {
           final updateCurrentName = MockUpdateCurrentUserDisplayNameUseCase();
-
           expect(
             () async => await updateCurrentName.invoke(currentName),
             isA<void>(),
