@@ -7,13 +7,37 @@ import 'package:pull_down_button/pull_down_button.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
+import 'package:story_creator/ui/providers/email_verification_provider.dart';
+import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 
-class MainPortraitScreen extends ConsumerWidget {
+class MainPortraitScreen extends ConsumerStatefulWidget {
   const MainPortraitScreen({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(authViewModelProvider);
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MainPortraitScreenState();
+}
+
+class _MainPortraitScreenState extends ConsumerState<MainPortraitScreen> {
+  _forgetFormCredentials() {
+    Future(() {
+      final email = ref.read(emailControllerProvider);
+      email.text = "";
+      ref
+          .read(emailControllerProvider.notifier)
+          .update((state) => state = email);
+      final password = ref.read(passwordControllerProvider);
+      password.text = "";
+      ref
+          .read(passwordControllerProvider.notifier)
+          .update((state) => state = password);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.watch(authViewModelProvider);
+    _forgetFormCredentials();
     return CupertinoPageScaffold(
         key: const Key("scaffold_main_portrait"),
         navigationBar: CupertinoNavigationBar(
@@ -82,8 +106,7 @@ class MainPortraitScreen extends ConsumerWidget {
                 padding: EdgeInsets.zero,
                 child: const Icon(CupertinoIcons.person_fill),
               ),
-            )
-            ),
+            )),
         child: const SingleChildScrollView());
   }
 }

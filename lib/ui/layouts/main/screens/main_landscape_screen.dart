@@ -4,11 +4,17 @@ import 'package:pull_down_button/pull_down_button.dart';
 import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
 import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 
-class MainLandscapeScreen extends ConsumerWidget {
+class MainLandscapeScreen extends ConsumerStatefulWidget {
   const MainLandscapeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MainLandscapeScreenState();
+}
+
+class _MainLandscapeScreenState extends ConsumerState<MainLandscapeScreen> {
+  @override
+  Widget build(BuildContext context) {
     final viewModel = ref.watch(authViewModelProvider);
 
     return CupertinoPageScaffold(

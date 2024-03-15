@@ -7,9 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_authorization_changes_provider.dart';
 import 'package:story_creator/firebase_options.dart';
+import 'package:story_creator/ui/layouts/loading/Loading_layout.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
+import 'package:story_creator/ui/providers/initial_route_provider.dart';
 import 'package:story_creator/ui/providers/theme_mode.dart';
 import 'package:story_creator/ui/layouts/signin/signin_layout.dart';
 import 'package:story_creator/ui/themes/colors.dart';
@@ -52,6 +54,8 @@ class AiApp extends ConsumerStatefulWidget {
 }
 
 class _AiAppState extends ConsumerState<AiApp> {
+  String initialRoute = LoadingLayout.route;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -72,31 +76,47 @@ class _AiAppState extends ConsumerState<AiApp> {
     sessionState.when(
       data: (user) {
         if (user != null && user.emailVerified) {
-          // initialRoute = AssistantsScreen.route;
+          ref
+              .watch(initialRouteProvider.notifier)
+              .update((state) => state = MainLayout.route);
           logger.d(
             "UUU user is logged",
           );
         } else {
-          // initialRoute = AuthScreen.route;
+          ref
+              .watch(initialRouteProvider.notifier)
+              .update((state) => state = SignInLayout.route);
           logger.d(
             "UUU user is not logged",
           );
         }
       },
       error: (_, __) {
-        // initialRoute = AuthScreen.route;
-        logger.d("UUU auth error");
+        ref
+            .watch(initialRouteProvider.notifier)
+            .update((state) => state = SignInLayout.route);
+        logger.d(
+          "UUU auth error",
+        );
       },
-      loading: () => logger.d(
-        "UUU loading",
-      ),
+      loading: () {
+        ref
+            .watch(initialRouteProvider.notifier)
+            .update((state) => state = LoadingLayout.route);
+        logger.d(
+          "UUU loading",
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
-    authChecker(ref);
+    Future(() {
+      authChecker(ref);
+    });
+
     return CupertinoApp(
         theme: AppThemes.appThemeData[theme],
         home: const ScreenUtilInit(
@@ -106,8 +126,9 @@ class _AiAppState extends ConsumerState<AiApp> {
             // title: "Imaginarium",
           ),
         ),
-        initialRoute: SignInLayout.route,
+        initialRoute: ref.watch(initialRouteProvider.notifier).state,
         routes: {
+          LoadingLayout.route: (context) => const LoadingLayout(),
           MainLayout.route: (context) => const MainLayout(),
           SignInLayout.route: (context) => const SignInLayout(),
           UpdateDisplayNameLayout.route: (context) =>
