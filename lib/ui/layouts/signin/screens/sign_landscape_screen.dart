@@ -310,6 +310,8 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                         logger.i("valid email");
                       } else {
                         logger.i("invalid email");
+
+                        
                       }
                       if (isValidPassword) {
                         logger.i("valid password");

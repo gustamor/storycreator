@@ -9,7 +9,7 @@ void main() {
     'logout process',
     () {
       testWidgets(
-        'should navigatoe to signin screen when log out',
+        'should navigator to signin screen when log out',
         (tester) async {
           await tester.pumpWidget(
             const ProviderScope(
@@ -20,7 +20,6 @@ void main() {
               ),
             ),
           );
-
           await tester.pumpAndSettle();
         },
       );

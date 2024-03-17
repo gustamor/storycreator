@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_change_password_usecase_privoder.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_check_email_verified_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_createuser_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_get_displayname_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_get_photourl_usecase_provider.dart';
@@ -49,6 +50,16 @@ class AuthViewModel {
       final sendEmailVerificationUseCase =
           ref.read(sendEmailVerificationUseCaseProvider);
       return await sendEmailVerificationUseCase.invoke();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> checkIfAccountIsVerified() async {
+      try {
+      final checkAccountVerifiedUseCase =
+          ref.read(checkAccountVerifiedUseCaseProvider);
+      return await checkAccountVerifiedUseCase.invoke();
     } catch (e) {
       throw Exception(e);
     }
@@ -120,4 +131,6 @@ class AuthViewModel {
       throw Exception(e);
     }
   }
+
+
 }
