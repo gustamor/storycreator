@@ -114,6 +114,23 @@ class AuthenticationService {
     }
   }
 
+  Future<bool> checkIfAccountIsVerified() async {
+     try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+        return  firebaseAuthRepo.checkIfAccountIsVerified();
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<void> sendEmailResetPassword(String email) async {
     try {
       const useFirebase = true;

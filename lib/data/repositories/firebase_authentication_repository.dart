@@ -137,7 +137,7 @@ class FirebaseAuthenticationRepository {
     }
   }
 
-    Future<void> updateCurrentUserPhotoURL(String newPhotoURL) async {
+  Future<void> updateCurrentUserPhotoURL(String newPhotoURL) async {
     try {
       final firebaseAuth = ref.read(firebaseAuthProvider);
       final currentUser = firebaseAuth.currentUser;
@@ -150,7 +150,7 @@ class FirebaseAuthenticationRepository {
     }
   }
 
-    Future<String> getCurrentUserPhotoURL() async {
+  Future<String> getCurrentUserPhotoURL() async {
     try {
       final firebaseAuth = ref.read(firebaseAuthProvider);
       final currentUser = firebaseAuth.currentUser;
@@ -164,4 +164,16 @@ class FirebaseAuthenticationRepository {
     }
   }
 
+  Future<bool> checkIfAccountIsVerified() async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      return (firebaseAuth.currentUser != null)
+          ? (firebaseAuth.currentUser!.emailVerified == true)
+              ? true
+              : false
+          : false;
+    } on FirebaseAuthException {
+      throw GenericException();
+    }
+  }
 }

@@ -26,12 +26,12 @@ class SignPortraitScreen extends ConsumerStatefulWidget {
 class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
   final title = "Authorization Screen";
   final GlobalKey<FormState> _authFormkey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     Future(
       () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
     );
+
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
 
@@ -322,42 +322,57 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                           "Un mínimo de ocho caracteres y al menos un número");
                     }
                   }
+
                   if (isValidEmail && isValidPassword) {
                     final viewModel = ref.read(authViewModelProvider);
+
                     viewModel
                         .signIn(emailController.text, passwordController.text)
                         .then((user) {
                       if (kDebugMode) {
                         logger.i("logged. Navigate to MainLayout or Update");
                       }
-                      viewModel.getDisplayNameCurrentUser().then(
-                        (value) {
-                           logger.i("AAA $value ");
-                          if (value.isNotEmpty) {
-                            if (kDebugMode) {
-                              logger.i("logged. Navigate to MainLayout ");
-                            }
-                            Navigator.pushReplacementNamed(
-                                context, MainLayout.route);
-                          } else {
-                            logger.i("logged. Navigate to UpdateDisplayName ");
 
-                            Navigator.pushReplacementNamed(
-                                context, UpdateDisplayNameLayout.route);
+                      viewModel.checkIfAccountIsVerified().then(
+                        (verified) {
+                          if (verified == true) {
+                            viewModel.getDisplayNameCurrentUser().then(
+                              (value) {
+                                logger.i("AAA $value ");
+                                if (value.isNotEmpty) {
+                                  if (kDebugMode) {
+                                    logger.i("logged. Navigate to MainLayout ");
+                                  }
+                                  Navigator.pushReplacementNamed(
+                                      context, MainLayout.route);
+                                } else {
+                                  logger.i(
+                                      "logged. Navigate to UpdateDisplayName ");
+
+                                  Navigator.pushReplacementNamed(
+                                      context, UpdateDisplayNameLayout.route);
+                                }
+                              },
+                            ).catchError(
+                              (error) {
+                                if (kDebugMode) {
+                                  logger.i("$error");
+                                  Fluttertoast.showToast(
+                                      msg: "Wrong credentials",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.SNACKBAR,
+                                      timeInSecForIosWeb: 1,
+                                      fontSize: 13.sp);
+                                }
+                              },
+                            );
+                          } else {
+                            //TODO: Is not verified
                           }
                         },
                       );
                     }).catchError(
                       (error) {
-                        if (kDebugMode) {
-                          logger.i("$error");
-                          Fluttertoast.showToast(
-                              msg: "Wrong credentials",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              timeInSecForIosWeb: 1,
-                              fontSize: 13.sp);
-                        }
                         // Mostrar mensaje de error
                       },
                     );
