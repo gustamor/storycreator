@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
-import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/signin/signin.dart';
-import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
-import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
 class SignLandscapeScreen extends ConsumerStatefulWidget {
@@ -29,8 +24,18 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
   @override
   Widget build(BuildContext context) {
     Future(
-      () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
+      () {
+        final password = ref.watch(passwordControllerProvider).text;
+        if (password.isEmpty) {
+          ref.read(passwordValidatorProvider.notifier).validatePassword('');
+        } else {
+          ref
+              .read(passwordValidatorProvider.notifier)
+              .validatePassword(password);
+        }
+      },
     );
+
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
 
@@ -197,12 +202,25 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                       height: kButtonHeightLandscape.h,
                       padding: EdgeInsets.all(12.0.r),
                       decoration: BoxDecoration(
+                        color:
+                            CupertinoTheme.of(context).scaffoldBackgroundColor,
                         border: Border.all(
-                          color: CupertinoColors.black,
+                          color: CupertinoTheme.of(context)
+                              .scaffoldBackgroundColor,
                           width: kButtonSideLandscape.w, // Border thickness
                         ),
-                        borderRadius: BorderRadius.circular(
-                            kButtonRadiusLandscape.r), // Border radius
+                        borderRadius:
+                            BorderRadius.circular(kButtonRadiusLandscape.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.15),
+                            spreadRadius: 1.r,
+                            blurRadius: 12.r,
+                            offset: Offset(0, 2.h),
+                          ),
+                        ], // // Border radius
                       ),
                       child: Center(
                         child: Text(
@@ -228,13 +246,27 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                       height: kButtonHeightLandscape.h,
                       padding: EdgeInsets.all(12.0.r),
                       decoration: BoxDecoration(
+                        color:
+                            CupertinoTheme.of(context).scaffoldBackgroundColor,
                         border: Border.all(
-                          color: CupertinoColors.black,
+                          color: CupertinoTheme.of(context)
+                              .scaffoldBackgroundColor,
+
                           // Border color
                           width: kButtonSideLandscape.w, // B/ Border thickness
                         ),
-                        borderRadius: BorderRadius.circular(
-                            kButtonRadiusLandscape.r), // Border radius
+                        borderRadius:
+                            BorderRadius.circular(kButtonRadiusLandscape.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.15),
+                            spreadRadius: 1.r,
+                            blurRadius: 12.r,
+                            offset: Offset(0, 2.h),
+                          ),
+                        ], // Border radius
                       ),
                       child: Center(
                         child: Text(

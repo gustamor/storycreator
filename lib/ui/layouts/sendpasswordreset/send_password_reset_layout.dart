@@ -16,7 +16,5 @@ class SendPasswordResetLinkLayout extends ResponsiveStatefulScreen {
   @override
   Widget buildPortrait(BuildContext context) {
     return const SendPasswordResetLinkPortraitScreen();
-  }
-  
- 
+  } 
 }

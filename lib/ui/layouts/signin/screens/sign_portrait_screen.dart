@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
-import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/signin/signin.dart';
-import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
-import 'package:story_creator/ui/providers/auth_vm_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
 class SignPortraitScreen extends ConsumerStatefulWidget {
@@ -30,7 +25,16 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
   @override
   Widget build(BuildContext context) {
     Future(
-      () => ref.read(passwordValidatorProvider.notifier).validatePassword(''),
+      () {
+        final password = ref.watch(passwordControllerProvider).text;
+        if (password.isEmpty) {
+          ref.read(passwordValidatorProvider.notifier).validatePassword('');
+        } else {
+          ref
+              .read(passwordValidatorProvider.notifier)
+              .validatePassword(password);
+        }
+      },
     );
 
     final emailController = ref.watch(emailControllerProvider.notifier).state;
@@ -180,24 +184,27 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
               child: CupertinoButton(
                 key: const Key("create_account_button"),
                 borderRadius: BorderRadius.all(Radius.circular(36.r)),
-               onPressed: () => ref.read(signInProvider).createUser(context, ref),
+                onPressed: () =>
+                    ref.read(signInProvider).createUser(context, ref),
                 child: Container(
                   width: kButtonWidth.w,
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
-                    color: CupertinoColors.white,
+                    color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                     border: Border.all(
-                      color: CupertinoColors.black,
+                      color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                       width: 0.8.w, // Border thickness
                     ),
                     borderRadius: BorderRadius.circular(kButtonRadius.r),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 3.r,
-                        blurRadius: 36.r,
-                        offset: Offset(0, 8.h),
+                        color: CupertinoTheme.of(context)
+                            .primaryColor
+                            .withOpacity(0.15),
+                        spreadRadius: 1.r,
+                        blurRadius: 12.r,
+                        offset: Offset(0, 2.h),
                       ),
                     ], // Border radius
                   ),
@@ -223,19 +230,21 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   height: kButtonHeight.h,
                   padding: EdgeInsets.all(12.0.r),
                   decoration: BoxDecoration(
-                    color: CupertinoColors.white,
+                    color: CupertinoTheme.of(context).scaffoldBackgroundColor,
 
                     border: Border.all(
-                      color: CupertinoColors.black,
+                      color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                       width: 0.8.w, // Border thickness
                     ),
                     borderRadius: BorderRadius.circular(kButtonRadius.r),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 3.r,
-                        blurRadius: 36.r,
-                        offset: Offset(0, 8.h),
+                        color: CupertinoTheme.of(context)
+                            .primaryColor
+                            .withOpacity(0.15),
+                        spreadRadius: 1.r,
+                        blurRadius: 12.r,
+                        offset: Offset(0, 2.h),
                       ),
                     ], // Border radius
                   ),

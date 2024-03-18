@@ -11,11 +11,12 @@ class SendEmailConfirmationPortraitScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SendEmailConfirmationPortraitScreen();
+      _SendEmailConfirmationPortraitScreenState();
 }
 
-class _SendEmailConfirmationPortraitScreen
+class _SendEmailConfirmationPortraitScreenState
     extends ConsumerState<SendEmailConfirmationPortraitScreen> {
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -58,18 +59,20 @@ class _SendEmailConfirmationPortraitScreen
                 height: kButtonHeight.h,
                 padding: EdgeInsets.all(12.0.r),
                 decoration: BoxDecoration(
-                  color: CupertinoColors.white,
+                  color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                   border: Border.all(
-                    color: CupertinoColors.black,
+                    color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                     width: 0.8.w, // Border thickness
                   ),
                   borderRadius: BorderRadius.circular(kButtonRadius.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      spreadRadius: 3.r,
-                      blurRadius: 36.r,
-                      offset: Offset(0, 8.h),
+                      color: CupertinoTheme.of(context)
+                          .primaryColor
+                          .withOpacity(0.15),
+                      spreadRadius: 1.r,
+                      blurRadius: 12.r,
+                      offset: Offset(0, 2.h),
                     ),
                   ], // Border radius
                 ),
