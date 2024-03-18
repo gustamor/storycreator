@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +8,7 @@ import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
+import 'package:story_creator/ui/layouts/signin/signin.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
@@ -188,86 +190,8 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                   child: CupertinoButton(
                     key: const Key("create_account_buttonL"),
                     borderRadius: BorderRadius.all(Radius.circular(16.r)),
-                    onPressed: () async {
-                      final validationState =
-                          ref.read(passwordValidatorProvider);
-                      final isValidPassword =
-                          validationState.errors.isEmpty ? true : false;
-
-                      final isValidEmail = ref
-                          .read(emailValidationProvider(emailController.text));
-                      if (isValidEmail) {
-                        logger.i("valid email");
-                      } else {
-                        logger.i("invalid email");
-                        Fluttertoast.showToast(
-                            msg: "Wrong email",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.SNACKBAR,
-                            timeInSecForIosWeb: 1,
-                            fontSize: 13.sp);
-                      }
-                      if (isValidPassword) {
-                        logger.i("valid password");
-                      } else {
-                        logger.i("invalid password");
-                        Fluttertoast.showToast(
-                            msg: "Wrong password",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.SNACKBAR,
-                            timeInSecForIosWeb: 1,
-                            fontSize: 13.sp);
-                      }
-                      if (isValidEmail && isValidPassword) {
-                        //Navigate to create account:
-
-                        final viewModel = ref.read(authViewModelProvider);
-                        viewModel
-                            .createUser(
-                                emailController.text, passwordController.text)
-                            .then((_) {
-                          logger.i("user create");
-                          // 1 - verify password
-
-                          viewModel.sendEmailVerification().then((value) {
-                            logger.i("email sent");
-                            // 2 - Choose username
-                            Navigator.pushNamed(
-                              context,
-                              SendPasswordResetLinkLayout.route,
-                            );
-                          }).catchError(
-                            (error) {
-                              logger.i("$error");
-                              Fluttertoast.showToast(
-                                  msg: "Some error",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.SNACKBAR,
-                                  timeInSecForIosWeb: 1,
-                                  fontSize: 13.sp);
-                            },
-                          );
-                        }).catchError(
-                          (error) {
-                            logger.i("$error");
-                            Fluttertoast.showToast(
-                                msg: "Some error",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.SNACKBAR,
-                                timeInSecForIosWeb: 1,
-                                fontSize: 13.sp);
-                          },
-                        );
-                      } else {
-                        logger.i("invalid crendetial");
-                        Fluttertoast.showToast(
-                            msg: "Wrong credentials",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.SNACKBAR,
-                            timeInSecForIosWeb: 1,
-                            fontSize: 13.sp);
-                      }
-                    },
+                    onPressed: () =>
+                        ref.read(signInProvider).createUser(context, ref),
                     child: Container(
                       width: kButtonWidthLandscape.w,
                       height: kButtonHeightLandscape.h,
@@ -297,59 +221,8 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                   child: CupertinoButton(
                     key: const Key("log_in_buttonL"),
                     borderRadius: BorderRadius.all(Radius.circular(34.r)),
-                    onPressed: () async {
-                      final validationState =
-                          ref.read(passwordValidatorProvider);
-                      final isValidPassword =
-                          validationState.errors.isEmpty ? true : false;
-
-                      final isValidEmail = ref
-                          .read(emailValidationProvider(emailController.text));
-
-                      if (isValidEmail) {
-                        logger.i("valid email");
-                      } else {
-                        logger.i("invalid email");
-
-                        
-                      }
-                      if (isValidPassword) {
-                        logger.i("valid password");
-                      } else {
-                        logger.i(
-                            "Un mínimo de ocho caracteres y al menos un número");
-                      }
-
-                      if (isValidEmail && isValidPassword) {
-                        final viewModel = ref.read(authViewModelProvider);
-                        viewModel
-                            .signIn(
-                                emailController.text, passwordController.text)
-                            .then((user) {
-                          logger.i("logged. Navigate to...");
-
-                          Navigator.pushReplacementNamed(
-                              context, MainLayout.route);
-                        }).catchError(
-                          (error) {
-                            logger.i("$error");
-                            Fluttertoast.showToast(
-                                msg: "Wrong credentials",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.SNACKBAR,
-                                timeInSecForIosWeb: 1,
-                                fontSize: 13.sp);
-                          },
-                        );
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "Wrong credentials",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.SNACKBAR,
-                            timeInSecForIosWeb: 1,
-                            fontSize: 13.sp);
-                      }
-                    },
+                    onPressed: () =>
+                        ref.read(signInProvider).login(context, ref),
                     child: Container(
                       width: kButtonWidthLandscape.w,
                       height: kButtonHeightLandscape.h,
