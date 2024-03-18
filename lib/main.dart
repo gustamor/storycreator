@@ -57,9 +57,7 @@ class AiApp extends ConsumerStatefulWidget {
 class _AiAppState extends ConsumerState<AiApp> {
   String initialRoute = LoadingLayout.route;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void _setTheme() {
     final Brightness mode = MediaQuery.of(context).platformBrightness;
     if (mode == Brightness.dark) {
       ref
@@ -70,6 +68,15 @@ class _AiAppState extends ConsumerState<AiApp> {
           .watch(themeProvider.notifier)
           .update((state) => state = AppTheme.lightTheme);
     }
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _setTheme();
+    });
   }
 
   authChecker(WidgetRef ref) {
@@ -127,10 +134,11 @@ class _AiAppState extends ConsumerState<AiApp> {
             // title: "Imaginarium",
           ),
         ),
-        initialRoute: ref.watch(initialRouteProvider.notifier).state,
+        initialRoute: SendEmailConfirmationLayout.route , //ref.watch(initialRouteProvider.notifier).state,
         routes: {
           LoadingLayout.route: (context) => const LoadingLayout(),
-          SendEmailConfirmationLayout.route: (context)=> const SendEmailConfirmationLayout(),
+          SendEmailConfirmationLayout.route: (context) =>
+              const SendEmailConfirmationLayout(),
           MainLayout.route: (context) => const MainLayout(),
           SignInLayout.route: (context) => const SignInLayout(),
           UpdateDisplayNameLayout.route: (context) =>
