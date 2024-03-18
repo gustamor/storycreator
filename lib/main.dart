@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_authorization_changes_provider.dart';
 import 'package:story_creator/firebase_options.dart';
+import 'package:story_creator/ui/layouts/email_confirmation/send_email_confirmation_layout.dart';
 import 'package:story_creator/ui/layouts/loading/Loading_layout.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
@@ -129,6 +130,7 @@ class _AiAppState extends ConsumerState<AiApp> {
         initialRoute: ref.watch(initialRouteProvider.notifier).state,
         routes: {
           LoadingLayout.route: (context) => const LoadingLayout(),
+          SendEmailConfirmationLayout.route: (context)=> const SendEmailConfirmationLayout(),
           MainLayout.route: (context) => const MainLayout(),
           SignInLayout.route: (context) => const SignInLayout(),
           UpdateDisplayNameLayout.route: (context) =>
