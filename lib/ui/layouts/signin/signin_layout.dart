@@ -14,6 +14,6 @@ class SignInLayout extends ResponsiveStatefulScreen {
 
   @override
   Widget buildPortrait(BuildContext context) {
-    return   const SignPortraitScreen();
+    return  const SignPortraitScreen();
   }
 }

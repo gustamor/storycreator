@@ -7,6 +7,7 @@ import 'package:story_creator/domain/providers/authentication_user/user_get_phot
 import 'package:story_creator/domain/providers/authentication_user/user_logout_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_reset_password_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_sendemail_verification_usercase_provider.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_siginin_with_google_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_signin_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_displayname_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_photourl_proivder.dart';
@@ -18,7 +19,7 @@ class AuthViewModel {
 
   AuthViewModel(this.ref);
 
-  Future<UiUser?> signIn(String email, String password) async {
+  Future<UiUser?> signInWithEmailAndPassword(String email, String password) async {
     try {
       final signInUseCase = ref.read(signInUseCaseProvider);
       return await signInUseCase.invoke(email, password);
@@ -26,7 +27,14 @@ class AuthViewModel {
       throw Exception(e);
     }
   }
-
+ Future<UiUser?> signInWithGoogle() async {
+    try {
+      final signInWithGoogleUseCase = ref.read(signInWithGoogleUseCaseProvider);
+      return await signInWithGoogleUseCase.invoke();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
   Future<UiUser?> createUser(String email, String password) async {
     try {
       final createUserUseCase = ref.read(createUserUseCaseProvider);

@@ -18,7 +18,7 @@ class MockitoFirebaseAuthRepository extends Mock
 
 class MockitoFireBaseAuthService extends Mock implements AuthenticationService {
   @override
-  Future<DataUser?> signIn(String email, String password) async {
+  Future<DataUser?> signInWithEmailAndPassword(String email, String password) async {
     return const DataUser(email: "test@email.com", id: "id", userName: "test");
   }
 }
@@ -86,7 +86,7 @@ void main() {
 
     test("should signIn returns a MockUiUser instance", () async {
       final mockitoFireBaseAuthService = MockitoFireBaseAuthService();
-      final user = await mockitoFireBaseAuthService.signIn(email, password);
+      final user = await mockitoFireBaseAuthService.signInWithEmailAndPassword(email, password);
 
       if (user == null) {
         expect(user, null);
@@ -97,7 +97,7 @@ void main() {
 
     test("should authentication service return a (mock)user email", () async {
       final mockitoFireBaseAuthService = MockitoFireBaseAuthService();
-      final user = await mockitoFireBaseAuthService.signIn(email, password);
+      final user = await mockitoFireBaseAuthService.signInWithEmailAndPassword(email, password);
 
       if (user == null) {
         expect(user, null);
@@ -108,7 +108,7 @@ void main() {
 
     test("should authentication service return a UiUser id", () async {
       final mockitoFireBaseAuthService = MockitoFireBaseAuthService();
-      final user = await mockitoFireBaseAuthService.signIn(email, password);
+      final user = await mockitoFireBaseAuthService.signInWithEmailAndPassword(email, password);
 
       if (user == null) {
         expect(user, null);
@@ -119,7 +119,7 @@ void main() {
 
     test("should authentication service return a UiUser userName", () async {
       final mockitoFireBaseAuthService = MockitoFireBaseAuthService();
-      final user = await mockitoFireBaseAuthService.signIn(email, password);
+      final user = await mockitoFireBaseAuthService.signInWithEmailAndPassword(email, password);
 
       if (user == null) {
         expect(user, null);

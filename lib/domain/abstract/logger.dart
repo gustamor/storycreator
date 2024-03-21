@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-
-class LogImpl {
-  @override
+class LogService {
   final Logger logger = Logger(
     printer: PrettyPrinter(
         methodCount: 2, // Number of method calls to be displayed in stack trace

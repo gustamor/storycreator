@@ -2,16 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/services/authentication_service.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
-class SignInUseCase {
+class SignInWithGoogleUseCase {
   final Ref ref;
 
-  SignInUseCase(this.ref);
+  SignInWithGoogleUseCase(this.ref);
 
-  Future<UiUser?> invoke(String email, String password) async {
+  Future<UiUser?> invoke() async {
     try {
       final authService = ref.read(authenticationServiceProvider);
 
-    final datauser = await authService.signInWithEmailAndPassword(email, password);
+    final datauser = await authService.signInWithGoogleProvider();
     if (datauser != null) {
     return  UiUser(id: datauser.id,
           email: datauser.email,

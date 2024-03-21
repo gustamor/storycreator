@@ -68,8 +68,8 @@ class _AiAppState extends ConsumerState<AiApp> {
           .watch(themeProvider.notifier)
           .update((state) => state = AppTheme.lightTheme);
     }
+    
   }
-
 
   @override
   void didChangeDependencies() {

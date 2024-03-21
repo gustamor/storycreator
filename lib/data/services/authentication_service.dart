@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 import 'package:story_creator/data/models/data_user.dart';
 import 'package:story_creator/data/providers/firebase_authentication_repo_provider.dart';
+import 'package:story_creator/data/providers/google_signin_credentials_provider.dart';
 
 final authenticationServiceProvider = Provider<AuthenticationService>((ref) {
   final authService = AuthenticationService(ref);
@@ -13,36 +14,8 @@ class AuthenticationService {
   final Ref ref;
   AuthenticationService(this.ref);
 
-  Future<DataUser?> signIn(String email, String password) async {
-    try {
-      const useFirebase = true;
-
-      if (useFirebase) {
-        final firebaseAuthRepo =
-            ref.read(firebaseAuthenticationRepositoryProvider);
-        try {
-          final user = await firebaseAuthRepo.signInWithEmailAndPassword(
-              email, password);
-          if (user != null) {
-            await user.reload();
-            return DataUser(
-              id: user.uid,
-              email: user.email!,
-              userName: user.displayName ?? '',
-              isLogged: true,
-            );
-          }
-          return null;
-        } catch (e) {
-          throw Exception(e);
-        }
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<DataUser?> createUser(String email, String password) async {
+  Future<DataUser?> createUserWithEmailAndPassword(
+      String email, String password) async {
     try {
       const useFirebase = true;
 
@@ -97,14 +70,27 @@ class AuthenticationService {
     }
   }
 
-  Future<void> logout() async {
+  Future<DataUser?> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       const useFirebase = true;
+
       if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
         try {
-          final firebaseAuthRepo =
-              ref.read(firebaseAuthenticationRepositoryProvider);
-          firebaseAuthRepo.logout();
+          final user = await firebaseAuthRepo.signInWithEmailAndPassword(
+              email, password);
+          if (user != null) {
+            await user.reload();
+            return DataUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
         } catch (e) {
           throw Exception(e);
         }
@@ -114,14 +100,69 @@ class AuthenticationService {
     }
   }
 
-  Future<bool> checkIfAccountIsVerified() async {
-     try {
+  Future<DataUser?> signInWithGoogleProvider() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        try {
+          final user = await firebaseAuthRepo.signInWithCredentials();
+          if (user != null) {
+            await user.reload();
+            return DataUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
       const useFirebase = true;
       if (useFirebase) {
         try {
           final firebaseAuthRepo =
               ref.read(firebaseAuthenticationRepositoryProvider);
-        return  firebaseAuthRepo.checkIfAccountIsVerified();
+          firebaseAuthRepo.logout();
+
+          _logoutGoogleProvider();
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> _logoutGoogleProvider() async {
+    try {
+      final googleAuth = await ref.read(googleCredentialsProvider.future);
+      await googleAuth.signOut();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> checkIfAccountIsVerified() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        try {
+          final firebaseAuthRepo =
+              ref.read(firebaseAuthenticationRepositoryProvider);
+          return firebaseAuthRepo.checkIfAccountIsVerified();
         } catch (e) {
           throw Exception(e);
         }
@@ -159,7 +200,7 @@ class AuthenticationService {
         } catch (e) {
           throw Exception(e);
         }
-      } 
+      }
     } catch (e) {
       throw Exception(e);
     }
@@ -178,7 +219,6 @@ class AuthenticationService {
     }
   }
 
-
   Future<void> changeUserPassword(String newPassword) async {
     try {
       const useFirebase = true;
@@ -191,7 +231,6 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
-
 
   Future<void> updateCurrentUserPhotoURL(String newPhotoURL) async {
     try {
@@ -209,7 +248,6 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
-  
 
   Future<String> getCurrentUserPhotoURL() async {
     try {
@@ -223,5 +261,4 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
-
 }

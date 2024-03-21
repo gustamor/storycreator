@@ -1,19 +1,16 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 
 abstract class ResponsiveStatefulScreen extends StatefulWidget {
   const ResponsiveStatefulScreen({super.key});
-   Widget buildPortrait(BuildContext context);
+  Widget buildPortrait(BuildContext context);
   Widget buildLandscape(BuildContext context);
   @override
-  State<ResponsiveStatefulScreen> createState() => _ResponsiveStatefulScreenState();
+  State<ResponsiveStatefulScreen> createState() =>
+      _ResponsiveStatefulScreenState();
 }
 
- class _ResponsiveStatefulScreenState extends State<ResponsiveStatefulScreen> {
-
-Orientation? lastOrientation;
+class _ResponsiveStatefulScreenState extends State<ResponsiveStatefulScreen> {
+  Orientation? lastOrientation;
 
   @override
   void didChangeDependencies() {
@@ -30,7 +27,7 @@ Orientation? lastOrientation;
   void _resetStateIfNeeded() {
     final currentOrientation = MediaQuery.of(context).orientation;
     if (lastOrientation != null && lastOrientation != currentOrientation) {
-       setState(() {}); 
+      setState(() {});
     }
     lastOrientation = currentOrientation;
   }
