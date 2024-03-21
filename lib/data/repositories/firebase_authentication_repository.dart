@@ -2,35 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/di/firebase_authentication_module.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
+import 'package:story_creator/data/providers/google_signin_credentials_provider.dart';
 
 class FirebaseAuthenticationRepository {
   final Ref ref;
   FirebaseAuthenticationRepository(this.ref);
-
-  Future<User?>? signInWithEmailAndPassword(
-      String email, String password) async {
-    final firebaseAuth = ref.read(firebaseAuthProvider);
-
-    try {
-      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      if (userCredential.user != null) {
-        return userCredential.user;
-      } else {
-        throw UserNotLoggedIn();
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw UserNotFoundException();
-      } else if (e.code == 'wrong-password') {
-        throw WrongPasswordException();
-      } else {
-        throw GenericException();
-      }
-    } catch (e) {
-      throw GenericException();
-    }
-  }
 
   Future<User?> createUserWithEmailAndPassword(
       String email, String password) async {
@@ -58,6 +34,43 @@ class FirebaseAuthenticationRepository {
       }
     } catch (e) {
       throw GenericException();
+    }
+  }
+
+  Future<User?>? signInWithEmailAndPassword(
+      String email, String password) async {
+    final firebaseAuth = ref.read(firebaseAuthProvider);
+    try {
+      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (userCredential.user != null) {
+        return userCredential.user;
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw UserNotFoundException();
+      } else if (e.code == 'wrong-password') {
+        throw WrongPasswordException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
+    }
+  }
+
+  Future<User?> signInWithCredentials() async {
+    final firebaseAuth = ref.read(firebaseAuthProvider);
+    final googleAuth = await ref.read(googleCredentialsProvider.future);
+    final authCredentials = await googleAuth.signInCredentialsGoogleProvider();
+    final userCredential =
+        await firebaseAuth.signInWithCredential(authCredentials);
+    if (userCredential.user != null) {
+      return userCredential.user;
+    } else {
+      throw UserNotLoggedIn();
     }
   }
 

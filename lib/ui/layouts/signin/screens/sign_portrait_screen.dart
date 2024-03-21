@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
@@ -51,6 +52,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
         ),
       ),
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -60,11 +62,47 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 key: const Key("imageAsset"),
                 kImageElfaLibro,
                 width: double.infinity,
-                height: 272.h,
+                height: 156.h,
                 fit: BoxFit.fill,
               ),
             ),
-            Gap(16.h),
+            Gap(1.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SignInButton(
+                  Buttons.appleDark,
+                  mini: true,
+                  text: "  Continue with Apple",
+                  onPressed: () {},
+                ),
+                Gap(4.h),
+                SignInButton(
+                  Buttons.facebook,
+                  mini: true,
+                  text: "  Continue with Facebook",
+                  onPressed: () {},
+                ),
+                Gap(4.h),
+                SignInButton(
+                  Buttons.gitHub,
+                  mini: true,
+                  text: "  Continue with Github",
+                  onPressed: () {},
+                ),
+                SignInButton(
+                  Buttons.linkedIn,
+                  mini: true,
+                  text: "  Continue with Linkedin",
+                  onPressed: () {},
+                )
+              ],
+            ),
+               Padding(
+              padding: EdgeInsets.symmetric(horizontal: 84.w),
+              child: const Divider(),
+            ),
+            Gap(3.h),
             Form(
               key: _authFormkey,
               child: Column(
@@ -162,11 +200,11 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         context, SendPasswordResetLinkLayout.route);
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(right: 28.w),
+                    padding: EdgeInsets.only(top: 0, right: 28.w),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        'Forgot password', style: TextStyle(fontSize: 7.sp),
+                        'Forgot password', style: TextStyle(fontSize: 8.sp),
                         // tr('forgot_my_password'),
                       ),
                     ),
@@ -257,7 +295,14 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ),
               ),
             ),
-            Gap(16.h),
+         
+            SignInButton(
+              Buttons.googleDark,
+              text: "  Continue with Google",
+              onPressed: () =>
+                  ref.read(signInProvider).loginWithGoogle(context, ref),
+            ),
+            Gap(4.h),
           ],
         ),
       ),
