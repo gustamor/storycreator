@@ -100,6 +100,33 @@ class AuthenticationService {
     }
   }
 
+  Future<DataUser?> signInWithGithubProvider() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        try {
+          final user = await firebaseAuthRepo.signInWithGithubProvider();
+          if (user != null) {
+            await user.reload();
+            return DataUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<DataUser?> signInWithGoogleProvider() async {
     try {
       const useFirebase = true;
@@ -107,7 +134,7 @@ class AuthenticationService {
         final firebaseAuthRepo =
             ref.read(firebaseAuthenticationRepositoryProvider);
         try {
-          final user = await firebaseAuthRepo.signInWithCredentials();
+          final user = await firebaseAuthRepo.signInWithGoogleCredentials();
           if (user != null) {
             await user.reload();
             return DataUser(
