@@ -88,7 +88,9 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   Buttons.gitHub,
                   mini: true,
                   text: "  Continue with Github",
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(signInProvider).loginWithGithub(context, ref);
+                  },
                 ),
                 SignInButton(
                   Buttons.linkedIn,
@@ -98,7 +100,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 )
               ],
             ),
-               Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 84.w),
               child: const Divider(),
             ),
@@ -295,7 +297,6 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ),
               ),
             ),
-         
             SignInButton(
               Buttons.googleDark,
               text: "  Continue with Google",
