@@ -23,16 +23,8 @@ class SignInWithGithubUseCase {
       } else {
         throw UserNotFoundException();
       }
-    } on FirebaseAuthException catch (e) {
-      if (e is AccountExistisWithDifferentCredential) {
-        throw AccountExistisWithDifferentCredential();
-      }
     } catch (e) {
-      if (e is AccountExistisWithDifferentCredential) {
-        throw AccountExistisWithDifferentCredential();
-      }
-      throw Exception(e);
+      rethrow;
     }
-    return null;
   }
 }

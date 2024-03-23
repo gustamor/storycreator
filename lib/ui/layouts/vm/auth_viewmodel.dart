@@ -27,7 +27,7 @@ class AuthViewModel {
       final signInUseCase = ref.read(signInUseCaseProvider);
       return await signInUseCase.invoke(email, password);
     } catch (e) {
-      throw Exception(e);
+      throw GenericException();
     }
   }
 
@@ -36,7 +36,7 @@ class AuthViewModel {
       final signInWithGoogleUseCase = ref.read(signInWithGoogleUseCaseProvider);
       return await signInWithGoogleUseCase.invoke();
     } catch (e) {
-      throw Exception(e);
+      throw GenericException();
     }
   }
 
@@ -45,10 +45,7 @@ class AuthViewModel {
       final signInWithGithubUseCase = ref.read(signInWithGitHubUseCaseProvider);
       return await signInWithGithubUseCase.invoke();
     } catch (e) {
-      if (e is AccountExistisWithDifferentCredential) {
-        throw AccountExistisWithDifferentCredential();
-      }
-      throw GenericException();
+      rethrow;
     }
   }
 

@@ -49,7 +49,7 @@ class AuthenticationService {
         }
       }
     } catch (e) {
-      throw Exception(e);
+       rethrow;
     }
   }
 
@@ -62,11 +62,11 @@ class AuthenticationService {
               ref.read(firebaseAuthenticationRepositoryProvider);
           firebaseAuthRepo.sendEmailVerification();
         } catch (e) {
-          throw Exception(e);
+            rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 
@@ -92,11 +92,11 @@ class AuthenticationService {
           }
           return null;
         } catch (e) {
-          throw Exception(e);
+        rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+       rethrow;
     }
   }
 
@@ -119,17 +119,11 @@ class AuthenticationService {
           }
           return null;
         } catch (e) {
-          if (e is AccountExistisWithDifferentCredential) {
-            throw AccountExistisWithDifferentCredential();
-          }
-          throw Exception(e);
+          rethrow;
         }
       }
     } catch (e) {
-      if (e is AccountExistisWithDifferentCredential) {
-        throw AccountExistisWithDifferentCredential();
-      }
-      throw Exception(e);
+      rethrow;
     }
   }
 
@@ -151,18 +145,13 @@ class AuthenticationService {
             );
           }
           return null;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            throw AccountExistisWithDifferentCredential();
-          }
         } catch (e) {
-          throw Exception(e);
+          rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
-    return null;
   }
 
   Future<void> logout() async {
@@ -176,11 +165,11 @@ class AuthenticationService {
 
           _logoutGoogleProvider();
         } catch (e) {
-          throw Exception(e);
+         rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 
@@ -189,7 +178,7 @@ class AuthenticationService {
       final googleAuth = await ref.read(googleCredentialsProvider.future);
       await googleAuth.signOut();
     } catch (e) {
-      throw Exception(e);
+       rethrow;
     }
   }
 
@@ -206,7 +195,7 @@ class AuthenticationService {
         }
       }
     } catch (e) {
-      throw Exception(e);
+        rethrow;
     }
   }
 
@@ -236,11 +225,11 @@ class AuthenticationService {
               ref.read(firebaseAuthenticationRepositoryProvider);
           firebaseAuthRepo.updateCurrentUserDisplayName(displayName);
         } catch (e) {
-          throw Exception(e);
+            rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+        rethrow;
     }
   }
 
@@ -253,7 +242,7 @@ class AuthenticationService {
         return await firebaseAuthRepo.getCurrentUserDisplayName();
       }
     } catch (e) {
-      throw Exception(e);
+         rethrow;
     }
   }
 
@@ -279,11 +268,11 @@ class AuthenticationService {
               ref.read(firebaseAuthenticationRepositoryProvider);
           firebaseAuthRepo.updateCurrentUserPhotoURL(newPhotoURL);
         } catch (e) {
-          throw Exception(e);
+            rethrow;
         }
       }
     } catch (e) {
-      throw Exception(e);
+       rethrow;
     }
   }
 
@@ -296,7 +285,7 @@ class AuthenticationService {
         return await firebaseAuthRepo.getCurrentUserPhotoURL();
       }
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 }
