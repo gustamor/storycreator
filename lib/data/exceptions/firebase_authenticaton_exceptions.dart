@@ -11,3 +11,5 @@ class InvalidEmailException implements Exception {}
 class GenericException implements Exception {}
 
 class UserNotLoggedIn implements Exception {}
+
+class AccountExistisWithDifferentCredential implements Exception {}

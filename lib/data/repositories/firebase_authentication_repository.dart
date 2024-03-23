@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/di/firebase_authentication_module.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 import 'package:story_creator/data/providers/google_signin_credentials_provider.dart';
-import 'package:story_creator/data/providers/signin_facebook_credentials_provider.dart';
+import 'package:story_creator/data/providers/signin_credentials_github_provider.dart';
 
 class FirebaseAuthenticationRepository {
   final Ref ref;
@@ -62,16 +62,53 @@ class FirebaseAuthenticationRepository {
     }
   }
 
+  Future<User?> signInWithGithubProvider() async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final githubApp = await ref.read(githubAppProvider.future);
+      final provider = await githubApp.signInWithProvider();
+      final userCredential = await firebaseAuth.signInWithProvider(provider);
+      if (userCredential.user != null) {
+        return userCredential.user;
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AccountExistisWithDifferentCredential();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
+    }
+  }
+
   Future<User?> signInWithGoogleCredentials() async {
-    final firebaseAuth = ref.read(firebaseAuthProvider);
-    final googleAuth = await ref.read(googleCredentialsProvider.future);
-    final authCredentials = await googleAuth.signInCredentials();
-    final userCredential =
-        await firebaseAuth.signInWithCredential(authCredentials);
-    if (userCredential.user != null) {
-      return userCredential.user;
-    } else {
-      throw UserNotLoggedIn();
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final googleAuth = await ref.read(googleCredentialsProvider.future);
+      final authCredentials =
+          await googleAuth.signInCredentialsGoogleProvider();
+      final userCredential =
+          await firebaseAuth.signInWithCredential(authCredentials);
+      if (userCredential.user != null) {
+        return userCredential.user;
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AccountExistisWithDifferentCredential();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
     }
   }
 
