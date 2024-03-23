@@ -82,7 +82,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   mini: true,
                   text: "  Continue with Microsoft",
                   onPressed: () =>
-                      ref.read(signInProvider).loginWithFacebook(context, ref),
+                      ref.read(signInProvider).loginWithMicrosoft(context, ref),
                 ),
                 Gap(4.h),
                 SignInButton(

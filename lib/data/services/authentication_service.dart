@@ -100,6 +100,35 @@ class AuthenticationService {
     }
   }
 
+
+  Future<DataUser?> signInWithMicrosoftProvider() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        try {
+          final user = await firebaseAuthRepo.signInWithMicrosoftProvider();
+          if (user != null) {
+            await user.reload();
+            return DataUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
+        } catch (e) {
+          rethrow;
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   Future<DataUser?> signInWithYahooProvider() async {
     try {
       const useFirebase = true;
