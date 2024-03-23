@@ -107,7 +107,7 @@ class AuthenticationService {
         final firebaseAuthRepo =
             ref.read(firebaseAuthenticationRepositoryProvider);
         try {
-          final user = await firebaseAuthRepo.signInWithCredentials();
+          final user = await firebaseAuthRepo.signInWithGoogleCredentials();
           if (user != null) {
             await user.reload();
             return DataUser(
@@ -126,6 +126,35 @@ class AuthenticationService {
       throw Exception(e);
     }
   }
+  
+ Future<DataUser?> signInWithFacebookProvider() async {
+    try {
+      const useFirebase = true;
+      if (useFirebase) {
+        final firebaseAuthRepo =
+            ref.read(firebaseAuthenticationRepositoryProvider);
+        try {
+          final user = await firebaseAuthRepo.signInWithFacebookCredentials();
+          if (user != null) {
+            await user.reload(); 
+            return DataUser(
+              id: user.uid,
+              email: user.email!,
+              userName: user.displayName ?? '',
+              isLogged: true,
+            );
+          }
+          return null;
+        } catch (e) {
+          throw Exception(e);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  
 
   Future<void> logout() async {
     try {
