@@ -287,7 +287,7 @@ class SignInImpl extends SignIn {
     });
   }
 
-@override
+  @override
   Future<void> loginWithFacebook(BuildContext context, WidgetRef ref) async {
     final viewModel = ref.read(authViewModelProvider);
 
@@ -320,7 +320,22 @@ class SignInImpl extends SignIn {
           }
         },
       );
+    }).onError((error, stackTrace) {
+      if (error is AccountExistisWithDifferentCredential) {
+        Fluttertoast.showToast(
+            msg: "Account exists fwith other provider",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            fontSize: 13.sp);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Something wrong",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            fontSize: 13.sp);
+      }
     });
   }
-
 }
