@@ -5,6 +5,7 @@ import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.
 import 'package:story_creator/data/providers/google_signin_credentials_provider.dart';
 import 'package:story_creator/data/providers/signin_credentials_github_provider.dart';
 import 'package:story_creator/data/providers/signin_facebook_credentials_provider.dart';
+import 'package:story_creator/data/providers/signin_yahoo_crendentials_provider.dart';
 
 class FirebaseAuthenticationRepository {
   final Ref ref;
@@ -68,6 +69,30 @@ class FirebaseAuthenticationRepository {
       final firebaseAuth = ref.read(firebaseAuthProvider);
       final githubApp = await ref.read(githubAppProvider.future);
       final provider = await githubApp.signInWithProvider();
+      final userCredential = await firebaseAuth.signInWithProvider(provider);
+      if (userCredential.user != null) {
+        return userCredential.user;
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AccountExistisWithDifferentCredential();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
+    }
+  }
+
+  Future<User?> signInWithYahooProvider() async {
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final yahooApp = await ref.read(yahooAppProvider.future);
+      final provider = await yahooApp.signInWithProvider();
       final userCredential = await firebaseAuth.signInWithProvider(provider);
       if (userCredential.user != null) {
         return userCredential.user;
