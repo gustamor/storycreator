@@ -78,13 +78,11 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ),
                 Gap(4.h),
                 SignInButton(
-                  Buttons.facebook,
+                  Buttons.microsoft,
                   mini: true,
-                  text: "  Continue with Facebook",
+                  text: "  Continue with Microsoft",
                   onPressed: () =>
-ref.read(signInProvider).loginWithFacebook(context, ref),
-                    
-                  
+                      ref.read(signInProvider).loginWithFacebook(context, ref),
                 ),
                 Gap(4.h),
                 SignInButton(
@@ -96,10 +94,12 @@ ref.read(signInProvider).loginWithFacebook(context, ref),
                   },
                 ),
                 SignInButton(
-                  Buttons.linkedIn,
+                  Buttons.yahoo,
                   mini: true,
-                  text: "  Continue with Linkedin",
-                  onPressed: () {},
+                  text: "  Continue with Yahoo!",
+                  onPressed: () {
+                      ref.read(signInProvider).loginWithYahoo(context, ref);
+                  },
                 )
               ],
             ),

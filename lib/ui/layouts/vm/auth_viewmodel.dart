@@ -8,6 +8,7 @@ import 'package:story_creator/domain/providers/authentication_user/user_logout_u
 import 'package:story_creator/domain/providers/authentication_user/user_reset_password_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_sendemail_verification_usercase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_sigin_with_github_usecase_provider.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_sigin_with_yahoo_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_siginin_with_google_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_signin_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_signin_with_facebook_provider.dart';
@@ -47,6 +48,16 @@ class AuthViewModel {
       rethrow;
     }
   }
+  
+ Future<UiUser?> signInWithYahoo() async {
+    try {
+      final signInWithYahooUseCase = ref.read(signInWithYahooUseCaseProvider);
+      return await signInWithYahooUseCase.invoke();
+    } catch (e) {
+      rethrow;
+    }
+  }
+ 
 
   Future<UiUser?> signInWithFacebook() async {
     try {
