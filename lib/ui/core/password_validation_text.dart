@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/error_validate_password_enum.dart';
-import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
 
 class PasswordValidationText extends ConsumerStatefulWidget {
