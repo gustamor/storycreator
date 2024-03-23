@@ -10,6 +10,7 @@ import 'package:story_creator/domain/providers/authentication_user/user_sendemai
 import 'package:story_creator/domain/providers/authentication_user/user_sigin_with_github_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_siginin_with_google_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_signin_usecase_provider.dart';
+import 'package:story_creator/domain/providers/authentication_user/user_signin_with_facebook_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_displayname_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_update_current_photourl_proivder.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
@@ -34,7 +35,7 @@ class AuthViewModel {
       final signInWithGoogleUseCase = ref.read(signInWithGoogleUseCaseProvider);
       return await signInWithGoogleUseCase.invoke();
     } catch (e) {
-     rethrow;
+      rethrow;
     }
   }
 
@@ -43,7 +44,17 @@ class AuthViewModel {
       final signInWithGithubUseCase = ref.read(signInWithGitHubUseCaseProvider);
       return await signInWithGithubUseCase.invoke();
     } catch (e) {
-       rethrow;
+      rethrow;
+    }
+  }
+
+  Future<UiUser?> signInWithFacebook() async {
+    try {
+      final signInWithFacebookUseCase =
+          ref.read(signInWithFacebookUseCaseProvider);
+      return await signInWithFacebookUseCase.invoke();
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -52,7 +63,7 @@ class AuthViewModel {
       final createUserUseCase = ref.read(createUserUseCaseProvider);
       return await createUserUseCase.invoke(email, password);
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -61,7 +72,7 @@ class AuthViewModel {
       final logoutUseCase = ref.read(logoutUseCaseProvider);
       return await logoutUseCase.invoke();
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -91,7 +102,7 @@ class AuthViewModel {
           ref.read(resetUserPasswordUseCaseProvider);
       return await resetUserPasswordUseCase.invoke(email);
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -103,7 +114,7 @@ class AuthViewModel {
         return await updateDisplayNameCurrentUserUseCase.invoke(displayName);
       }
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -118,7 +129,7 @@ class AuthViewModel {
         return "";
       }
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -128,7 +139,7 @@ class AuthViewModel {
           ref.read(changeUserPasswordUseCaseProvider);
       await changeUserPasswordUseCase.invoke(newPassword);
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -138,7 +149,7 @@ class AuthViewModel {
           ref.read(updatePhotoURLCurrentUserUseCaseProvider);
       return await updatePhotoURLCurrentUserUseCase.invoke(newPhotoURL);
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 
@@ -148,7 +159,7 @@ class AuthViewModel {
           ref.read(getCurrentUserPhotoURLUseCaseProvider);
       return await getCurrentUserPhotoURLUseCase.invoke();
     } catch (e) {
-       rethrow;
+      rethrow;
     }
   }
 }
