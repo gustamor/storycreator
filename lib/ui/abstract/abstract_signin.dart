@@ -5,4 +5,5 @@ abstract class SignIn {
   Future<void> createUser(BuildContext context, WidgetRef ref);
   Future<void> login(BuildContext context, WidgetRef ref);
   Future<void> loginWithGoogle(BuildContext context, WidgetRef ref);
+  Future<void> loginWithFacebook(BuildContext context, WidgetRef ref);
 }

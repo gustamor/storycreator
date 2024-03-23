@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_creator/data/di/firebase_authentication_module.dart';
 import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 import 'package:story_creator/data/providers/google_signin_credentials_provider.dart';
+import 'package:story_creator/data/providers/signin_facebook_credentials_provider.dart';
 
 class FirebaseAuthenticationRepository {
   final Ref ref;
@@ -61,12 +62,25 @@ class FirebaseAuthenticationRepository {
     }
   }
 
-  Future<User?> signInWithCredentials() async {
+  Future<User?> signInWithGoogleCredentials() async {
     final firebaseAuth = ref.read(firebaseAuthProvider);
     final googleAuth = await ref.read(googleCredentialsProvider.future);
-    final authCredentials = await googleAuth.signInCredentialsGoogleProvider();
+    final authCredentials = await googleAuth.signInCredentials();
     final userCredential =
         await firebaseAuth.signInWithCredential(authCredentials);
+    if (userCredential.user != null) {
+      return userCredential.user;
+    } else {
+      throw UserNotLoggedIn();
+    }
+  }
+
+  Future<User?> signInWithFacebookCredentials() async {
+    final firebaseAuth = ref.read(firebaseAuthProvider);
+    final facebookAuth = await ref.read(facebookCredentialsProvider.future);
+    final authCredentials = await facebookAuth.signInCredentials();
+    final userCredential =
+        await firebaseAuth.signInWithCredential(authCredentials!);
     if (userCredential.user != null) {
       return userCredential.user;
     } else {

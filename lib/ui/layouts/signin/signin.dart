@@ -224,4 +224,41 @@ class SignInImpl extends SignIn {
       );
     });
   }
+
+@override
+  Future<void> loginWithFacebook(BuildContext context, WidgetRef ref) async {
+    final viewModel = ref.read(authViewModelProvider);
+
+    viewModel.signInWithFacebook().then((user) {
+      viewModel.getDisplayNameCurrentUser().then(
+        (value) {
+          logger.d("AAA $value ");
+          if (value.isNotEmpty) {
+            if (kDebugMode) {
+              logger.d("logged. Navigate to MainLayout ");
+            }
+            Navigator.pushReplacementNamed(context, MainLayout.route);
+          } else {
+            logger.d("logged. Navigate to UpdateDisplayName ");
+
+            Navigator.pushReplacementNamed(
+                context, UpdateDisplayNameLayout.route);
+          }
+        },
+      ).catchError(
+        (error) {
+          if (kDebugMode) {
+            logger.d("$error");
+            Fluttertoast.showToast(
+                msg: "Wrong credentials",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.SNACKBAR,
+                timeInSecForIosWeb: 1,
+                fontSize: 13.sp);
+          }
+        },
+      );
+    });
+  }
+
 }
