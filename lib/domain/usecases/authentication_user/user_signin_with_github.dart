@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 import 'package:story_creator/data/services/authentication_service.dart';
 import 'package:story_creator/ui/models/ui_user.dart';
 
@@ -19,10 +21,18 @@ class SignInWithGithubUseCase {
             userName: datauser.userName,
             isLogged: datauser.isLogged);
       } else {
-        throw Exception();
+        throw UserNotFoundException();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e is AccountExistisWithDifferentCredential) {
+        throw AccountExistisWithDifferentCredential();
       }
     } catch (e) {
+      if (e is AccountExistisWithDifferentCredential) {
+        throw AccountExistisWithDifferentCredential();
+      }
       throw Exception(e);
     }
+    return null;
   }
 }

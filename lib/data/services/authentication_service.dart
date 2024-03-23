@@ -119,10 +119,16 @@ class AuthenticationService {
           }
           return null;
         } catch (e) {
+          if (e is AccountExistisWithDifferentCredential) {
+            throw AccountExistisWithDifferentCredential();
+          }
           throw Exception(e);
         }
       }
     } catch (e) {
+      if (e is AccountExistisWithDifferentCredential) {
+        throw AccountExistisWithDifferentCredential();
+      }
       throw Exception(e);
     }
   }
@@ -145,6 +151,10 @@ class AuthenticationService {
             );
           }
           return null;
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            throw AccountExistisWithDifferentCredential();
+          }
         } catch (e) {
           throw Exception(e);
         }
@@ -152,6 +162,7 @@ class AuthenticationService {
     } catch (e) {
       throw Exception(e);
     }
+    return null;
   }
 
   Future<void> logout() async {
