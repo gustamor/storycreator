@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:story_creator/core/constants.dart';
+import 'package:story_creator/data/exceptions/firebase_authenticaton_exceptions.dart';
 import 'package:story_creator/ui/abstract/abstract_signin.dart';
 import 'package:story_creator/ui/layouts/email_confirmation/send_email_confirmation_layout.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
@@ -222,6 +223,15 @@ class SignInImpl extends SignIn {
           }
         },
       );
+    }).onError((error, stackTrace) {
+      if (error == AccountExistisWithDifferentCredential()) {
+        Fluttertoast.showToast(
+            msg: "Account exist with other provider",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            fontSize: 13.sp);
+      }
     });
   }
 
@@ -258,6 +268,22 @@ class SignInImpl extends SignIn {
           }
         },
       );
+    }).onError((error, stackTrace) {
+      if (error is AccountExistisWithDifferentCredential) {
+        Fluttertoast.showToast(
+            msg: "Account exists fwith other provider",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            fontSize: 13.sp);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Something wrong",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            fontSize: 13.sp);
+      }
     });
   }
 }
