@@ -8,7 +8,7 @@ import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_authorization_changes_provider.dart';
 import 'package:story_creator/firebase_options.dart';
 import 'package:story_creator/ui/layouts/email_confirmation/send_email_confirmation_layout.dart';
-import 'package:story_creator/ui/layouts/loading/Loading_layout.dart';
+import 'package:story_creator/ui/layouts/loading/loading_layout.dart';
 import 'package:story_creator/ui/layouts/main/main_layout.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/updateDisplayName/update_display_name_layout.dart';
@@ -68,7 +68,6 @@ class _AiAppState extends ConsumerState<AiApp> {
           .watch(themeProvider.notifier)
           .update((state) => state = AppTheme.lightTheme);
     }
-    
   }
 
   @override
@@ -134,7 +133,8 @@ class _AiAppState extends ConsumerState<AiApp> {
             // title: "Imaginarium",
           ),
         ),
-        initialRoute: SendEmailConfirmationLayout.route , //ref.watch(initialRouteProvider.notifier).state,
+        initialRoute: SendEmailConfirmationLayout
+            .route, //ref.watch(initialRouteProvider.notifier).state,
         routes: {
           LoadingLayout.route: (context) => const LoadingLayout(),
           SendEmailConfirmationLayout.route: (context) =>

@@ -91,7 +91,9 @@ ref.read(signInProvider).loginWithFacebook(context, ref),
                   Buttons.gitHub,
                   mini: true,
                   text: "  Continue with Github",
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(signInProvider).loginWithGithub(context, ref);
+                  },
                 ),
                 SignInButton(
                   Buttons.linkedIn,
@@ -101,7 +103,7 @@ ref.read(signInProvider).loginWithFacebook(context, ref),
                 )
               ],
             ),
-               Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 84.w),
               child: const Divider(),
             ),
@@ -298,7 +300,6 @@ ref.read(signInProvider).loginWithFacebook(context, ref),
                 ),
               ),
             ),
-         
             SignInButton(
               Buttons.googleDark,
               text: "  Continue with Google",
