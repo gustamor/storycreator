@@ -91,8 +91,7 @@ class FirebaseAuthenticationRepository {
     try {
       final firebaseAuth = ref.read(firebaseAuthProvider);
       final googleAuth = await ref.read(googleCredentialsProvider.future);
-      final authCredentials =
-          await googleAuth.signInCredentials();
+      final authCredentials = await googleAuth.signInCredentials();
       final userCredential =
           await firebaseAuth.signInWithCredential(authCredentials);
       if (userCredential.user != null) {
@@ -114,15 +113,27 @@ class FirebaseAuthenticationRepository {
   }
 
   Future<User?> signInWithFacebookCredentials() async {
-    final firebaseAuth = ref.read(firebaseAuthProvider);
-    final facebookAuth = await ref.read(facebookCredentialsProvider.future);
-    final authCredentials = await facebookAuth.signInCredentials();
-    final userCredential =
-        await firebaseAuth.signInWithCredential(authCredentials!);
-    if (userCredential.user != null) {
-      return userCredential.user;
-    } else {
-      throw UserNotLoggedIn();
+    try {
+      final firebaseAuth = ref.read(firebaseAuthProvider);
+      final facebookAuth = await ref.read(facebookCredentialsProvider.future);
+      final authCredentials = await facebookAuth.signInCredentials();
+      final userCredential =
+          await firebaseAuth.signInWithCredential(authCredentials!);
+      if (userCredential.user != null) {
+        return userCredential.user;
+      } else {
+        throw UserNotLoggedIn();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AccountExistisWithDifferentCredential();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
     }
   }
 
