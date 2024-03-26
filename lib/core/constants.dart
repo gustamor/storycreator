@@ -28,10 +28,10 @@ const kIconTextFieldRadiusSideLandscape = 1;
 const kIconTextFieldPaddingLandscape = 6.0;
 const kTextFieldVerticalPaddingLandscape = 10.0;
 const kTextFieldHorizontalPaddingLandscape = 1.0;
-const kButtonHeightLandscape = 58.0;
+const kButtonHeightLandscape = 64.0;
 const kButtonWidthLandscape = 120.0;
 const kButtonRadiusLandscape = 48.0;
-const kButtonFontSizeLandscape = 8.0;
+const kButtonFontSizeLandscape = 6.0;
 const kOrContinueFontSizeLandscape = 15.0;
 
 const kButtonSideLandscape = 0.4;
@@ -40,3 +40,6 @@ const kPasswordTextSizeLandscape = 4.0;
 
 
 final logger = LogImpl();
+
+
+const kIconLogoGoogle = 'assets/images/icons/google_login.png';
