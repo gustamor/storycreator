@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
@@ -69,6 +70,78 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Gap(1.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color:
+                           CupertinoTheme.of(context).primaryColor,
+                        border: Border.all(
+                          color: CupertinoTheme.of(context)
+                              .scaffoldBackgroundColor,
+                          width: kButtonSideLandscape.w, // Border thickness
+                        ),
+                        borderRadius:
+                            BorderRadius.circular(4.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.15),
+                            spreadRadius: 1.r,
+                            blurRadius: 12.r,
+                            offset: Offset(0, 2.h),
+                          ),
+                        ], // // Border radius
+                      ),
+                      constraints: const BoxConstraints(
+                        maxWidth: 220,
+                      ),
+                      height: 64.h,
+                      width: 16.w,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.r),
+                        child: Image.asset(kIconLogoGoogle),
+                      ),
+                    ),
+                    Gap(3.w),
+                    SignInButton(
+                      Buttons.appleDark,
+                      mini: true,
+                      text: "  Continue with Apple",
+                      onPressed: () {},
+                    ),
+                    Gap(4.h),
+                    SignInButton(
+                      Buttons.microsoft,
+                      mini: true,
+                      text: "  Continue with Microsoft",
+                      onPressed: () => ref
+                          .read(signInProvider)
+                          .loginWithFacebook(context, ref),
+                    ),
+                    Gap(4.h),
+                    SignInButton(
+                      Buttons.gitHub,
+                      mini: true,
+                      text: "  Continue with Github",
+                      onPressed: () {
+                        ref.read(signInProvider).loginWithGithub(context, ref);
+                      },
+                    ),
+                    SignInButton(
+                      Buttons.yahoo,
+                      mini: true,
+                      text: "  Continue with Yahoo!",
+                      onPressed: () {
+                        ref.read(signInProvider).loginWithYahoo(context, ref);
+                      },
+                    )
+                  ],
+                ),
+                Gap(3.h),
                 Form(
                   key: _authFormkey,
                   child: Column(

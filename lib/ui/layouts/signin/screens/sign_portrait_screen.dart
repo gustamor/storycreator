@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -39,9 +40,9 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
         }
       },
     );
-    final passwordVisible =
-        ref.watch(passwordVisibilityProvider);
-     final suffixIcon = ref.watch(suffixIconProvider(passwordVisible).notifier).state;
+    final passwordVisible = ref.watch(passwordVisibilityProvider);
+    final suffixIcon =
+        ref.watch(suffixIconProvider(passwordVisible).notifier).state;
 
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
@@ -75,6 +76,44 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                GestureDetector(
+                  onTap: () {
+                    ref.read(signInProvider).loginWithGoogle(context, ref);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: CupertinoTheme.of(context).primaryColor,
+                      border: Border.all(
+                        color:
+                            CupertinoTheme.of(context).scaffoldBackgroundColor,
+                        width: kButtonSideLandscape.w, // Border thickness
+                      ),
+                      borderRadius: BorderRadius.circular(4.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: CupertinoTheme.of(context)
+                              .primaryColor
+                              .withOpacity(0.15),
+                          spreadRadius: 1.r,
+                          blurRadius: 12.r,
+                          offset: Offset(0, 2.h),
+                        ),
+                      ], // // Border radius
+                    ),
+                    constraints:  BoxConstraints(
+                      maxWidth: 90.w,
+                    ),
+                    height: 30.h,
+                    width: 34.w,
+                    child: Center(
+                      child: Padding(
+                        padding:  EdgeInsets.all(8.r),
+                        child: Image.asset(kIconLogoGoogle),
+                      ),
+                    ),
+                  ),
+                ),
+                Gap(8.w),
                 SignInButton(
                   Buttons.appleDark,
                   mini: true,
@@ -186,8 +225,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: kIconTextFieldPadding.w),
-                          child: Icon(suffixIcon,
-                              size: kIconTextFieldSize.sp),
+                          child: Icon(suffixIcon, size: kIconTextFieldSize.sp),
                         ),
                       ),
                       prefixMode: OverlayVisibilityMode.always,
@@ -318,13 +356,6 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                 ),
               ),
             ),
-            SignInButton(
-              Buttons.googleDark,
-              text: "  Continue with Google",
-              onPressed: () =>
-                  ref.read(signInProvider).loginWithGoogle(context, ref),
-            ),
-            Gap(4.h),
           ],
         ),
       ),
