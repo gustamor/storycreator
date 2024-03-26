@@ -28,7 +28,7 @@ class _PasswordValidationTextState
           Text(
             "At least ",
             style: TextStyle(
-                fontSize: kPasswordValidationTextSize.sp, color: Colors.blue),
+                fontSize: kPasswordValidationTextSize.sp, color: Colors.green),
           ),
           Text(
             "8 characters, ",
@@ -37,7 +37,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.lessLength)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -47,7 +47,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noLetter)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -57,7 +57,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noUpperCase)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -67,7 +67,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noNumber)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
         ],
@@ -80,7 +80,7 @@ class _PasswordValidationTextState
             "At least ",
             style: TextStyle(
               fontSize: kPasswordValidationTextSizeLandscape.sp,
-              color: Colors.blue,
+              color: Colors.green,
             ),
           ),
           Text(
@@ -90,7 +90,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.lessLength)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -100,7 +100,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noLetter)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -110,7 +110,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noUpperCase)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
           Text(
@@ -120,7 +120,7 @@ class _PasswordValidationTextState
               color: validationState.errors
                       .contains(ErrorValidatePassword.noNumber)
                   ? CupertinoTheme.of(context).primaryColor.withOpacity(0.4)
-                  : Colors.blue,
+                  : Colors.green,
             ),
           ),
         ],

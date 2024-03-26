@@ -8,8 +8,10 @@ import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/signin/signin.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
+import 'package:story_creator/ui/providers/password_suffix_icon_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
+import 'package:story_creator/ui/providers/password_visibility_provider.dart';
 
 class SignLandscapeScreen extends ConsumerStatefulWidget {
   const SignLandscapeScreen({super.key});
@@ -36,7 +38,9 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
         }
       },
     );
-
+    final passwordVisible = ref.watch(passwordVisibilityProvider);
+    final suffixIcon =
+        ref.watch(suffixIconProvider(passwordVisible).notifier).state;
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
 
@@ -67,24 +71,23 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
         Expanded(
           flex: 6,
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Gap(1.h),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color:
-                           CupertinoTheme.of(context).primaryColor,
+                        color: CupertinoTheme.of(context).primaryColor,
                         border: Border.all(
                           color: CupertinoTheme.of(context)
                               .scaffoldBackgroundColor,
                           width: kButtonSideLandscape.w, // Border thickness
                         ),
-                        borderRadius:
-                            BorderRadius.circular(4.r),
+                        borderRadius: BorderRadius.circular(4.r),
                         boxShadow: [
                           BoxShadow(
                             color: CupertinoTheme.of(context)
@@ -209,6 +212,18 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                             child: Icon(CupertinoIcons.alarm,
                                 size: kIconTextFieldSizeLandscape.sp),
                           ),
+                          suffix: GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(passwordVisibilityProvider.notifier)
+                              .update((state) => !state);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: kIconTextFieldPadding.w),
+                          child: Icon(suffixIcon, size: kIconTextFieldSizeLandscape.sp),
+                        ),
+                      ),
                           prefixMode: OverlayVisibilityMode.always,
                           autocorrect: true,
                           keyboardType: TextInputType.emailAddress,
@@ -222,7 +237,7 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                                   kTextFieldHorizontalPaddingLandscape.w),
                           style: TextStyle(
                               fontSize: kIconTextFieldFontSizeLandscape.sp),
-                          obscureText: true,
+                          obscureText: passwordVisible,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                                 kIconTextFieldRadiusLandscape.r),
