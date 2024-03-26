@@ -102,10 +102,10 @@ class _SignLandscapeScreenState extends ConsumerState<SignLandscapeScreen> {
                       constraints: const BoxConstraints(
                         maxWidth: 220,
                       ),
-                      height: 64.h,
-                      width: 16.w,
+                      height: 36.h,
+                      width: 12.w,
                       child: Padding(
-                        padding: EdgeInsets.all(16.r),
+                        padding: EdgeInsets.all(8.5.r),
                         child: Image.asset(kIconLogoGoogle),
                       ),
                     ),

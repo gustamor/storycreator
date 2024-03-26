@@ -103,17 +103,17 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                     constraints:  BoxConstraints(
                       maxWidth: 90.w,
                     ),
-                    height: 30.h,
-                    width: 34.w,
+                    height: 23.h,
+                    width: 19.w,
                     child: Center(
                       child: Padding(
-                        padding:  EdgeInsets.all(8.r),
+                        padding:  EdgeInsets.all(5.r),
                         child: Image.asset(kIconLogoGoogle),
                       ),
                     ),
                   ),
                 ),
-                Gap(8.w),
+                Gap(6.w),
                 SignInButton(
                   Buttons.appleDark,
                   mini: true,
