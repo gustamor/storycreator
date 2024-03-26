@@ -9,8 +9,10 @@ import 'package:story_creator/ui/core/password_validation_text.dart';
 import 'package:story_creator/ui/layouts/sendpasswordreset/send_password_reset_layout.dart';
 import 'package:story_creator/ui/layouts/signin/signin.dart';
 import 'package:story_creator/ui/providers/email_verification_provider.dart';
+import 'package:story_creator/ui/providers/password_suffix_icon_provider.dart';
 import 'package:story_creator/ui/providers/password_textcontroller_provider.dart';
 import 'package:story_creator/ui/providers/password_validator_provider.dart';
+import 'package:story_creator/ui/providers/password_visibility_provider.dart';
 
 class SignPortraitScreen extends ConsumerStatefulWidget {
   const SignPortraitScreen({super.key});
@@ -37,6 +39,9 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
         }
       },
     );
+    final passwordVisible =
+        ref.watch(passwordVisibilityProvider);
+     final suffixIcon = ref.watch(suffixIconProvider(passwordVisible).notifier).state;
 
     final emailController = ref.watch(emailControllerProvider.notifier).state;
     final passwordController = ref.watch(passwordControllerProvider);
@@ -98,7 +103,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                   mini: true,
                   text: "  Continue with Yahoo!",
                   onPressed: () {
-                      ref.read(signInProvider).loginWithYahoo(context, ref);
+                    ref.read(signInProvider).loginWithYahoo(context, ref);
                   },
                 )
               ],
@@ -169,8 +174,21 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                       prefix: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: kIconTextFieldPadding.w),
-                        child: Icon(CupertinoIcons.alarm,
+                        child: Icon(CupertinoIcons.lock,
                             size: kIconTextFieldSize.sp),
+                      ),
+                      suffix: GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(passwordVisibilityProvider.notifier)
+                              .update((state) => !state);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: kIconTextFieldPadding.w),
+                          child: Icon(suffixIcon,
+                              size: kIconTextFieldSize.sp),
+                        ),
                       ),
                       prefixMode: OverlayVisibilityMode.always,
                       autocorrect: true,
@@ -183,7 +201,7 @@ class _SignPortraitScreenState extends ConsumerState<SignPortraitScreen> {
                           vertical: kTextFieldVerticalPadding.h,
                           horizontal: kTextFieldHorizontalPadding.w),
                       style: TextStyle(fontSize: kIconTextFieldFontSize.sp),
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       decoration: BoxDecoration(
                         borderRadius:
                             BorderRadius.circular(kIconTextFieldRadius.r),

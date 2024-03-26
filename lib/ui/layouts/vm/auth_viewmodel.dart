@@ -58,7 +58,6 @@ class AuthViewModel {
     }
   }
  
-
   Future<UiUser?> signInWithFacebook() async {
     try {
       final signInWithFacebookUseCase =
