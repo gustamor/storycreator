@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:story_creator/core/constants.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_change_password_usecase_privoder.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_check_email_verified_usecase_provider.dart';
 import 'package:story_creator/domain/providers/authentication_user/user_createuser_usecase_provider.dart';
@@ -37,6 +38,7 @@ class AuthViewModel {
       final signInWithGoogleUseCase = ref.read(signInWithGoogleUseCaseProvider);
       return await signInWithGoogleUseCase.invoke();
     } catch (e) {
+      logger.d("$e");
       rethrow;
     }
   }

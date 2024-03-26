@@ -18,7 +18,6 @@ class AuthenticationService {
       String email, String password) async {
     try {
       const useFirebase = true;
-
       if (useFirebase) {
         try {
           final firebaseAuthRepo =

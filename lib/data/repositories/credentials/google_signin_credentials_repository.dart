@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:story_creator/core/constants.dart';
 
 class GoogleAuthImpl {
   Future<OAuthCredential> signInCredentials() async {
@@ -18,6 +19,7 @@ class GoogleAuthImpl {
 
       return credential;
     } catch (e) {
+      logger.e("Google Auth:  $e");
       throw Exception(e);
     }
   }

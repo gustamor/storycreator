@@ -8,6 +8,5 @@ abstract class SignIn {
   Future<void> loginWithFacebook(BuildContext context, WidgetRef ref);
   Future<void> loginWithGithub(BuildContext context, WidgetRef ref);
   Future<void> loginWithYahoo(BuildContext context, WidgetRef ref);
-
-  
+  Future<void> loginWithMicrosoft(BuildContext context, WidgetRef ref);
 }
